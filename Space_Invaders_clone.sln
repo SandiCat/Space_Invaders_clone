@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space_Invaders_clone", "Spa
 EndProject
 Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Space_Invaders_cloneContent", "Space_Invaders_clone\Space_Invaders_cloneContent\Space_Invaders_cloneContent.contentproj", "{7CCF1067-9D39-45A7-B6A3-5799BD7E498E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandi_s_Way", "..\Sandi_s_Way\Sandi's_Way\Sandi_s_Way.csproj", "{7E24E051-4CD8-48DD-AA5F-D77FE9025FF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugConsole", "..\Sandi_s_Way\DebugConsole\DebugConsole.csproj", "{94339F12-F77A-44B8-B451-985F18AC8A3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -17,6 +21,14 @@ Global
 		{6C99A71E-3E8A-420A-88E9-55FBD7E3F4F7}.Release|x86.Build.0 = Release|x86
 		{7CCF1067-9D39-45A7-B6A3-5799BD7E498E}.Debug|x86.ActiveCfg = Debug|x86
 		{7CCF1067-9D39-45A7-B6A3-5799BD7E498E}.Release|x86.ActiveCfg = Release|x86
+		{7E24E051-4CD8-48DD-AA5F-D77FE9025FF0}.Debug|x86.ActiveCfg = Debug|x86
+		{7E24E051-4CD8-48DD-AA5F-D77FE9025FF0}.Debug|x86.Build.0 = Debug|x86
+		{7E24E051-4CD8-48DD-AA5F-D77FE9025FF0}.Release|x86.ActiveCfg = Release|x86
+		{7E24E051-4CD8-48DD-AA5F-D77FE9025FF0}.Release|x86.Build.0 = Release|x86
+		{94339F12-F77A-44B8-B451-985F18AC8A3E}.Debug|x86.ActiveCfg = Debug|x86
+		{94339F12-F77A-44B8-B451-985F18AC8A3E}.Debug|x86.Build.0 = Debug|x86
+		{94339F12-F77A-44B8-B451-985F18AC8A3E}.Release|x86.ActiveCfg = Release|x86
+		{94339F12-F77A-44B8-B451-985F18AC8A3E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
