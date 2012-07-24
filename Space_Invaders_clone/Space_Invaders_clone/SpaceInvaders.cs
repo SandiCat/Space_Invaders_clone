@@ -19,7 +19,7 @@ namespace Space_Invaders_clone
         //Basic game info:
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        GraphicsDevice device;
+        public static GraphicsDevice Device;
 
         //The debug console:
         public static DebugConsole Console;
@@ -34,10 +34,10 @@ namespace Space_Invaders_clone
         protected override void Initialize()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            device = graphics.GraphicsDevice;
+            Device = graphics.GraphicsDevice;
 
             //Initialize game info:
-            graphics.PreferredBackBufferWidth = 64 + 557 + 64;
+            graphics.PreferredBackBufferWidth = 64 + 557 + 72;
             graphics.PreferredBackBufferHeight = 64 + 348 + 174 + 52;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
@@ -58,7 +58,7 @@ namespace Space_Invaders_clone
         {
             //Initialize the GameInfo:
             GameInfo.RefSpriteBatch = spriteBatch;
-            GameInfo.RefDevice = device;
+            GameInfo.RefDevice = Device;
             GameInfo.RefDeviceManager = graphics;
             GameInfo.RefContent = Content;
             GameInfo.RefConsole = Console;

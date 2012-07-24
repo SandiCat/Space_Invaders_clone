@@ -17,9 +17,9 @@ namespace Space_Invaders_clone
     public abstract class BaseInvader : GameObject
     {
         //Moving variables
-        protected static int HowMuchToMove = 32;
-        protected static int HowMuchDown = 50;
-        protected static int BulletSpeed = 3;
+        public static int HowMuchToMove = 16;
+        public static int HowMuchDown = 50;
+        public static int BulletSpeed = 3;
 
         public BaseInvader()
             : base()
