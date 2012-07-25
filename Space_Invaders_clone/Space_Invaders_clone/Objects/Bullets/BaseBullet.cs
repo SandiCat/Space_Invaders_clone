@@ -16,5 +16,9 @@ namespace Space_Invaders_clone
 {
     public abstract class BaseBullet : GameObject
     {
+        public override void IntersectBoundary()
+        {
+            DestroyObject(this);
+        }
     }
 }

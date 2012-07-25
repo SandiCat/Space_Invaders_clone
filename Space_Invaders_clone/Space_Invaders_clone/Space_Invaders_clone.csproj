@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Invaders\BaseInvader.cs" />
     <Compile Include="Objects\Bullets\BaseBullet.cs" />
     <Compile Include="Objects\Bullets\PlayerBullet.cs" />

@@ -24,5 +24,16 @@ namespace Space_Invaders_clone
             : base(position)
         {
         }
+
+        public override void Collision(List<GameObject> collisions)
+        {
+            foreach (var obj in collisions)
+            {
+                if (typeof(BaseInvader).IsAssignableFrom(obj.GetType()))
+                {
+                    DestroyObject(this);
+                }
+            }
+        }
     }
 }

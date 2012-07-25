@@ -47,5 +47,16 @@ namespace Space_Invaders_clone
             Vector2 belowInvader = Sprite.Position + new Vector2(53 / 2 - 5, 32);
             CreateMovingObject(typeof(EnemyBullet), belowInvader, Directions.Down, BulletSpeed);
         }
+
+        public override void Collision(List<GameObject> collisions)
+        {
+            foreach (var obj in collisions)
+            {
+                if (obj.GetType() == typeof(PlayerBullet))
+                {
+                    DestroyObject(this);
+                }
+            }
+        }
     }
 }
