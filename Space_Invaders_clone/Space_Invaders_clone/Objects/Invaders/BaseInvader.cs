@@ -44,7 +44,7 @@ namespace Space_Invaders_clone
         }
         public void Shoot()
         {
-            Vector2 belowInvader = Sprite.Position + new Vector2(32 - 5, 64);
+            Vector2 belowInvader = Sprite.Position + new Vector2(53 / 2 - 5, 32);
             CreateMovingObject(typeof(EnemyBullet), belowInvader, Directions.Down, BulletSpeed);
         }
     }

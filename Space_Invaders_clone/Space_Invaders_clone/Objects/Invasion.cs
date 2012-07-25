@@ -34,8 +34,11 @@ namespace Space_Invaders_clone
         public BaseInvader[,] Invaders = new BaseInvader[5, 9];
         public Vector2 Positon;
         public int Time = 50;
+        public float ShootChance = 0.01f;
         private float spacing = 15.0f; //The space between the rows
         private DirectionMoving direction = DirectionMoving.Left;
+        private int rows;
+        private int columns;
 
         private int InvaderWidth;
         private int InvaderHeight;
@@ -46,36 +49,41 @@ namespace Space_Invaders_clone
         public void FillInvaders()
         {
             float yPosition = Positon.Y;
-            int row = Invaders.GetLength(1); //Gets the number of invaders in a row
+            int row = columns; //Gets the number of invaders in a row
 
             //Fill the first row with invaders type 1
             for(int i = 0; i < row; i++)
             {
-                Invaders[0, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType1), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition)); 
+                Invaders[0, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType1), 
+                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition)); 
             }
            
             //Fill the second and third row with invaders type 2
             yPosition += InvaderHeight + spacing;
             for (int i = 0; i < row; i++)
             {
-                Invaders[1, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType2), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                Invaders[1, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType2), 
+                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
             }
             yPosition += InvaderHeight + spacing;
             for (int i = 0; i < row; i++)
             {
-                Invaders[2, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType2), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                Invaders[2, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType2), 
+                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
             }
 
             //Fill the forth and fifth row with invaders type 3
             yPosition += InvaderHeight + spacing;
             for (int i = 0; i < row; i++)
             {
-                Invaders[3, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType3), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                Invaders[3, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType3), 
+                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
             }
             yPosition += InvaderHeight + spacing;
             for (int i = 0; i < row; i++)
             {
-                Invaders[4, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType3), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                Invaders[4, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType3), 
+                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
             }
         }
         private Vector2 GetTopLeft()
@@ -96,9 +104,9 @@ namespace Space_Invaders_clone
                 InvasionWidth = Invaders.GetLength(1) * InvaderWidth + (Invaders.GetLength(1) - 1) * (int)spacing;
                 InvasionHeight = Invaders.GetLength(0) * InvaderHeight + (Invaders.GetLength(0) - 1) * (int)spacing;
 
+                rows = Invaders.GetLength(0);
+                columns = Invaders.GetLength(1);
                 FillInvaders();
-
-
             }
         }
 
@@ -106,6 +114,7 @@ namespace Space_Invaders_clone
         {
             if (name == "move")
             {
+                #region move
                 //Get the rectangles for move checks:
                 Rectangle invaders = new Rectangle((int)GetTopLeft().X, (int)GetTopLeft().Y, InvasionWidth, InvasionHeight);
                 Rectangle screen = new Rectangle(0, 0, SpaceInvaders.Device.Viewport.Width, SpaceInvaders.Device.Viewport.Height);
@@ -150,9 +159,33 @@ namespace Space_Invaders_clone
                         }
                     }
                 }
+                #endregion
 
                 Alarms["move"].Restart(Time);
             }
+        }
+
+        public override void Update()
+        {
+            #region shoot
+            if (ObjectManager.Rand.NextDouble() < ShootChance)
+            {
+                //Get the last row:
+                List<BaseInvader> bottomRow = new List<BaseInvader>();
+                int bottomRowIndex = rows - 1;
+                for (int i = 0; i < columns; i++)
+                {
+                    bottomRow.Add(Invaders[bottomRowIndex, i]);
+                }
+
+                int shooterIndex = ObjectManager.Rand.Next(columns);
+                bottomRow[shooterIndex].Shoot();
+            }
+            #endregion
+
+            //Rectangle invaders = new Rectangle((int)GetTopLeft().X, (int)GetTopLeft().Y, InvasionWidth, InvasionHeight);
+
+            //SpaceInvaders.Console.UniqueLine(invaders.Left.ToString() + ", " + invaders.Right.ToString());
         }
     }
 }
