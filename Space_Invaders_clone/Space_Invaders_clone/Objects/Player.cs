@@ -28,7 +28,7 @@ namespace Space_Invaders_clone
         int speed = 5;
         int bulletSpeed = 5;
         bool canShoot = true;
-        int canShootTime = 60;
+        int canShootTime = 40;
 
         public override void Create(GameObject createdObject)
         {
@@ -40,15 +40,6 @@ namespace Space_Invaders_clone
 
         public override void KeyDown(List<Keys> keys)
         {
-            if (keys.Contains(Keys.Space) && canShoot)
-            {
-                Vector2 abovePlayer = Sprite.Position + new Vector2(53 / 2 - 5, - 32);
-                CreateMovingObject(typeof(PlayerBullet), abovePlayer, Directions.Up, bulletSpeed);
-                
-                canShoot = false;
-                Alarms["reset canShoot"].Restart(canShootTime);
-            }
-
             if (keys.Contains(Keys.Left))
             {
                 StepAngle(Directions.Left, speed);
@@ -58,8 +49,24 @@ namespace Space_Invaders_clone
             {
                 StepAngle(Directions.Right, speed);
             }
+
+            //Prevent the ship from leaving the screen:
+            Rectangle screen = new Rectangle(0, 0, SpaceInvaders.Device.Viewport.Width, SpaceInvaders.Device.Viewport.Height);
+            Sprite.Position.X = MathHelper.Clamp(Sprite.Position.X,
+               screen.Left, screen.Right - Sprite.Image.Width);
         }
 
+        public override void KeyPressed(List<Keys> keys)
+        {
+            if (keys.Contains(Keys.Space) && canShoot)
+            {
+                Vector2 abovePlayer = Sprite.Position + new Vector2(53 / 2 - 5, -32);
+                CreateMovingObject(typeof(PlayerBullet), abovePlayer, Directions.Up, bulletSpeed);
+
+                canShoot = false;
+                Alarms["reset canShoot"].Restart(canShootTime);
+            }
+        }
         public override void Alarm(string name)
         {
             if (name == "reset canShoot")

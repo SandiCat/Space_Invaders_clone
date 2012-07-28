@@ -51,39 +51,29 @@ namespace Space_Invaders_clone
             float yPosition = Positon.Y;
             int row = columns; //Gets the number of invaders in a row
 
-            //Fill the first row with invaders type 1
-            for(int i = 0; i < row; i++)
+            //Fill the invaders:
+            for (int j = 0; j < rows; j++)
             {
-                Invaders[0, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType1), 
-                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition)); 
-            }
-           
-            //Fill the second and third row with invaders type 2
-            yPosition += InvaderHeight + spacing;
-            for (int i = 0; i < row; i++)
-            {
-                Invaders[1, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType2), 
-                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
-            }
-            yPosition += InvaderHeight + spacing;
-            for (int i = 0; i < row; i++)
-            {
-                Invaders[2, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType2), 
-                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
-            }
+                for (int i = 0; i < row; i++)
+                {
+                    if (j == 0)
+                    {
+                        Invaders[j, i] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType1), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                    }
+                    else if (j == 1 | j == 2)
+                    {
+                        Invaders[j, i] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType2), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                    }
+                    else if (j == 3 | j == 4)
+                    {
+                        Invaders[j, i] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType3), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                    }
+                }
 
-            //Fill the forth and fifth row with invaders type 3
-            yPosition += InvaderHeight + spacing;
-            for (int i = 0; i < row; i++)
-            {
-                Invaders[3, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType3), 
-                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
-            }
-            yPosition += InvaderHeight + spacing;
-            for (int i = 0; i < row; i++)
-            {
-                Invaders[4, i] = (BaseInvader)CreateAndReturnObject(typeof(InvaderType3), 
-                    new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                yPosition += InvaderHeight + spacing;
             }
         }
         private Vector2 GetTopLeft()
@@ -122,7 +112,7 @@ namespace Space_Invaders_clone
                 if (direction == DirectionMoving.Left)
                 {
                     //Check if you can move to left (if there is space):
-                    if (invaders.Left - BaseInvader.HowMuchToMove >= screen.Left + 16)
+                    if (invaders.Left - BaseInvader.HowMuchToMove >= screen.Left + BaseInvader.HowMuchToMove)
                     {
                         //If so, move:
                         foreach (var invader in Invaders)
@@ -142,7 +132,7 @@ namespace Space_Invaders_clone
                 else if (direction == DirectionMoving.Right)
                 {
                     //Check if you can move to left (if there is space):
-                    if (invaders.Right + BaseInvader.HowMuchToMove <= screen.Right + 16)
+                    if (invaders.Right + BaseInvader.HowMuchToMove <= screen.Right + BaseInvader.HowMuchToMove)
                     {
                         //If so, move:
                         foreach (var invader in Invaders)

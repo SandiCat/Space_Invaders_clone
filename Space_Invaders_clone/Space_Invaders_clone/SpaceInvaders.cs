@@ -67,14 +67,14 @@ namespace Space_Invaders_clone
             TextureContainer.Initialize();
 
             //Initialize default sprites:
-            int width = 53;
-            int height = 32;
+            int width = 40;
+            int height = 25;
             TextureContainer.DefaultTextures[typeof(InvaderType1)] = TextureContainer.ColoredRectangle(Color.Red, width, height);
             TextureContainer.DefaultTextures[typeof(InvaderType2)] = TextureContainer.ColoredRectangle(Color.Yellow, width, height);
             TextureContainer.DefaultTextures[typeof(InvaderType3)] = TextureContainer.ColoredRectangle(Color.Blue, width, height);
-            TextureContainer.DefaultTextures[typeof(EnemyBullet)] = TextureContainer.ColoredRectangle(Color.Blue, 10, 16);
+            TextureContainer.DefaultTextures[typeof(EnemyBullet)] = TextureContainer.ColoredRectangle(Color.Blue, 8, 16);
             TextureContainer.DefaultTextures[typeof(Player)] = TextureContainer.ColoredRectangle(Color.Green, 53, 32);
-            TextureContainer.DefaultTextures[typeof(PlayerBullet)] = TextureContainer.ColoredRectangle(Color.Green, 10, 16);
+            TextureContainer.DefaultTextures[typeof(PlayerBullet)] = TextureContainer.ColoredRectangle(Color.Green, 5, 13);
 
             //Create game objects:
             ObjectManager.InstantCreate(typeof(Invasion), new Vector2(64, 64));

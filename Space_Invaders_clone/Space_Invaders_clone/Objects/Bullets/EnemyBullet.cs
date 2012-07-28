@@ -24,5 +24,10 @@ namespace Space_Invaders_clone
             : base(position)
         {
         }
+
+        public override void IntersectBoundary()
+        {
+            base.IntersectBoundary();
+        }
     }
 }
