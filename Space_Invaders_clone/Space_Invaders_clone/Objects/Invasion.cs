@@ -34,7 +34,7 @@ namespace Space_Invaders_clone
         public BaseInvader[,] Invaders = new BaseInvader[5, 9];
         public Vector2 Positon;
         public int Time = 50;
-        public float ShootChance = 0.01f;
+        public float ShootChance = 0.003f;
         private float spacing = 15.0f; //The space between the rows
         private DirectionMoving direction = DirectionMoving.Left;
         private int rows;
@@ -46,30 +46,30 @@ namespace Space_Invaders_clone
         private int InvasionWidth;
         private int InvasionHeight;
 
-        public void FillInvaders()
+        public void FillInvaders()  
         {
             float yPosition = Positon.Y;
             int row = columns; //Gets the number of invaders in a row
 
             //Fill the invaders:
-            for (int j = 0; j < rows; j++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int i = 0; i < row; i++)
+                for (int j = 0; j < row; j++)
                 {
-                    if (j == 0)
+                    if (i == 0)
                     {
-                        Invaders[j, i] = (BaseInvader)CreateAndReturnObject
-                        (typeof(InvaderType1), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                        Invaders[i, j] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType1), new Vector2(InvaderWidth * j + Positon.X + 10 * j, yPosition));
                     }
-                    else if (j == 1 | j == 2)
+                    else if (i == 1 | i == 2)
                     {
-                        Invaders[j, i] = (BaseInvader)CreateAndReturnObject
-                        (typeof(InvaderType2), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                        Invaders[i, j] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType2), new Vector2(InvaderWidth * j + Positon.X + 10 * j, yPosition));
                     }
-                    else if (j == 3 | j == 4)
+                    else if (i == 3 | i == 4)
                     {
-                        Invaders[j, i] = (BaseInvader)CreateAndReturnObject
-                        (typeof(InvaderType3), new Vector2(InvaderWidth * i + Positon.X + 10 * i, yPosition));
+                        Invaders[i, j] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType3), new Vector2(InvaderWidth * j + Positon.X + 10 * j, yPosition));
                     }
                 }
 
@@ -79,6 +79,11 @@ namespace Space_Invaders_clone
         private Vector2 GetTopLeft()
         {
             return Invaders[0, 0].Sprite.Position;
+        }
+        public void LevelUp() //Makes invasion faster and deadlier
+        {
+            ShootChance = ShootChance + (ShootChance * 0.5f); //Increase ShootChance by 50%
+            Time = Time - (int)(Time * 0.1); //Decrease time by 10%
         }
 
         public override void Create(GameObject createdObject)
@@ -99,7 +104,6 @@ namespace Space_Invaders_clone
                 FillInvaders();
             }
         }
-
         public override void Alarm(string name)
         {
             if (name == "move")
@@ -117,14 +121,14 @@ namespace Space_Invaders_clone
                         //If so, move:
                         foreach (var invader in Invaders)
                         {
-                            invader.MoveLeft();
+                            if (invader != null) invader.MoveLeft();
                         }
                     }
                     else
                     {
                         foreach (var invader in Invaders)
                         {
-                            invader.MoveDown();
+                            if (invader != null)  invader.MoveDown();
                             direction = DirectionMoving.Right;
                         }
                     }
@@ -137,14 +141,14 @@ namespace Space_Invaders_clone
                         //If so, move:
                         foreach (var invader in Invaders)
                         {
-                            invader.MoveRight();
+                            if (invader != null) invader.MoveRight();
                         }
                     }
                     else
                     {
                         foreach (var invader in Invaders)
                         {
-                            invader.MoveDown();
+                            if (invader != null) invader.MoveDown();
                             direction = DirectionMoving.Left;
                         }
                     }
@@ -154,28 +158,57 @@ namespace Space_Invaders_clone
                 Alarms["move"].Restart(Time);
             }
         }
-
         public override void Update()
         {
             #region shoot
             if (ObjectManager.Rand.NextDouble() < ShootChance)
             {
-                //Get the last row:
+                //Get all the bottom invaders of all the columns
                 List<BaseInvader> bottomRow = new List<BaseInvader>();
-                int bottomRowIndex = rows - 1;
-                for (int i = 0; i < columns; i++)
+                
+                for (int i = 0; i < columns; i++) //for each column
                 {
-                    bottomRow.Add(Invaders[bottomRowIndex, i]);
+                    for (int j = rows - 1; j >= 0; j--) //go from the bottom up, the first invader you find is the bottom one
+                    {
+                        if (Invaders[j, i] != null)
+                        {
+                            bottomRow.Add(Invaders[j, i]);
+                            break;
+                        }
+                    }
                 }
 
-                int shooterIndex = ObjectManager.Rand.Next(columns);
+                int shooterIndex = ObjectManager.Rand.Next(bottomRow.Count);
                 bottomRow[shooterIndex].Shoot();
             }
             #endregion
 
-            //Rectangle invaders = new Rectangle((int)GetTopLeft().X, (int)GetTopLeft().Y, InvasionWidth, InvasionHeight);
+            #region Remove destroyed invaders
 
-            //SpaceInvaders.Console.UniqueLine(invaders.Left.ToString() + ", " + invaders.Right.ToString());
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    if (Invaders[i, j] != null)
+                    {
+                        if (Invaders[i, j].IsDestroyed())
+                        {
+                            Invaders[i, j] = null;
+                        }
+                    }
+                }
+            }
+
+            #endregion
+        }
+
+        //Test:
+        public override void KeyPressed(List<Keys> keys)
+        {
+            if (keys.Contains(Keys.B))
+            {
+                LevelUp();
+            }
         }
     }
 }

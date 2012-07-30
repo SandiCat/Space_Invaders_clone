@@ -18,7 +18,7 @@ namespace Space_Invaders_clone
     {
         //Moving variables
         public static int HowMuchToMove = 8;
-        public static int HowMuchDown = 50;
+        public static int HowMuchDown = 30;
         public static int BulletSpeed = 3;
 
         public BaseInvader()
