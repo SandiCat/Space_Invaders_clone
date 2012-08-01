@@ -37,8 +37,7 @@ namespace Space_Invaders_clone
         public int Wait = 120;
         public float ShootChance = 0.003f;
         private float spacing = 15.0f; //The space between the rows
-        private DirectionMoving direction = DirectionMoving.Left;
-        public Vector2 TopLeft; //The top left corner of the invasion will be stored here
+        private DirectionMoving direction = DirectionMoving.Right;
         private int rows;
         private int columns;
 
@@ -166,7 +165,6 @@ namespace Space_Invaders_clone
             if (createdObject == this)
             {
                 Positon = Sprite.Position;
-                TopLeft = Sprite.Position;
                 
                 Alarms.Add("move", new Alarm(Time));
 
@@ -187,7 +185,7 @@ namespace Space_Invaders_clone
             {
                 #region Move
                 //Get the rectangles for move checks:
-                Rectangle invaders = new Rectangle((int)TopLeft.X, (int)TopLeft.Y, InvasionWidth, InvasionHeight);
+                Rectangle invaders = GetInvadersRectangle();
                 Rectangle screen = new Rectangle(0, 0, SpaceInvaders.Device.Viewport.Width, SpaceInvaders.Device.Viewport.Height);
 
                 if (direction == DirectionMoving.Left)
@@ -200,9 +198,6 @@ namespace Space_Invaders_clone
                         {
                             if (invader != null) invader.MoveLeft();
                         }
-
-                        //Also move the TopLeft position
-                        TopLeft.X -= BaseInvader.HowMuchToMove;
                     }
                     else
                     {
@@ -211,24 +206,18 @@ namespace Space_Invaders_clone
                             if (invader != null)  invader.MoveDown();
                             direction = DirectionMoving.Right;
                         }
-
-                        //Also move the TopLeft position
-                        TopLeft.Y += BaseInvader.HowMuchDown;
                     }
                 }
                 else if (direction == DirectionMoving.Right)
                 {
                     //Check if you can move to left (if there is space):
-                    if (invaders.Right + BaseInvader.HowMuchToMove <= screen.Right + BaseInvader.HowMuchToMove * 2)
+                    if (invaders.Right + BaseInvader.HowMuchToMove <= screen.Right - BaseInvader.HowMuchToMove)
                     {
                         //If so, move:
                         foreach (var invader in Invaders)
                         {
                             if (invader != null) invader.MoveRight();
                         }
-
-                        //Also move the TopLeft position
-                        TopLeft.X += BaseInvader.HowMuchToMove;
                     }
                     else
                     {
@@ -237,9 +226,6 @@ namespace Space_Invaders_clone
                             if (invader != null) invader.MoveDown();
                             direction = DirectionMoving.Left;
                         }
-
-                        //Also move the TopLeft position
-                        TopLeft.Y += BaseInvader.HowMuchDown;
                     }
                 }
                 #endregion
