@@ -34,9 +34,11 @@ namespace Space_Invaders_clone
         public BaseInvader[,] Invaders = new BaseInvader[5, 9];
         public Vector2 Positon;
         public int Time = 50;
+        public int Wait = 120;
         public float ShootChance = 0.003f;
         private float spacing = 15.0f; //The space between the rows
         private DirectionMoving direction = DirectionMoving.Left;
+        public Vector2 TopLeft; //The top left corner of the invasion will be stored here
         private int rows;
         private int columns;
 
@@ -76,14 +78,87 @@ namespace Space_Invaders_clone
                 yPosition += InvaderHeight + spacing;
             }
         }
-        private Vector2 GetTopLeft()
-        {
-            return Invaders[0, 0].Sprite.Position;
-        }
         public void LevelUp() //Makes invasion faster and deadlier
         {
             ShootChance = ShootChance + (ShootChance * 0.5f); //Increase ShootChance by 50%
             Time = Time - (int)(Time * 0.1); //Decrease time by 10%
+        }
+        public Rectangle GetInvadersRectangle()
+        {
+            int furthestLeft = 0;
+            int furthestRight = 0;
+            int furthestUp = 0;
+            int furthestDown = 0;
+
+            #region Find furthest left
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    if (Invaders[j, i] != null)
+                    {
+                        furthestLeft = Invaders[j, i].Sprite.GetRectangle().Left;
+
+                        goto endSearchLeft; //im only using goto to break out of two loops. im sorry.
+                    }
+                }
+            }
+            endSearchLeft:
+            #endregion
+
+            #region Find furthest right
+            for (int i = columns - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    if (Invaders[j, i] != null)
+                    {
+                        furthestRight = Invaders[j, i].Sprite.GetRectangle().Right;
+
+                        goto endSearchRight; //im only using goto to break out of two loops. im sorry.
+                    }
+                }
+            }
+            endSearchRight:
+            #endregion
+
+            #region Find furthest up
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    if (Invaders[i, j] != null)
+                    {
+                        furthestUp = Invaders[i, j].Sprite.GetRectangle().Top;
+
+                        goto endSearchUp; //im only using goto to break out of two loops. im sorry.
+                    }
+                }
+            }
+            endSearchUp:
+            #endregion
+
+            #region Find furthest down
+            for (int i = rows - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    if (Invaders[i, j] != null)
+                    {
+                        furthestDown = Invaders[i, j].Sprite.GetRectangle().Bottom;
+
+                        goto endSearchDown; //im only using goto to break out of two loops. im sorry.
+                    }
+                }
+            }
+            endSearchDown:
+            #endregion
+
+            Vector2 topLeft = new Vector2(furthestLeft, furthestUp);
+            int width = furthestRight - furthestLeft;
+            int height = furthestDown - furthestUp;
+
+            return new Rectangle((int)topLeft.X, (int)topLeft.Y, width, height);
         }
 
         public override void Create(GameObject createdObject)
@@ -91,12 +166,14 @@ namespace Space_Invaders_clone
             if (createdObject == this)
             {
                 Positon = Sprite.Position;
+                TopLeft = Sprite.Position;
+                
                 Alarms.Add("move", new Alarm(Time));
 
                 InvaderWidth = new InvaderType1().Sprite.GetRectangle().Width;
                 InvaderHeight = new InvaderType1().Sprite.GetRectangle().Height;
 
-                InvasionWidth = Invaders.GetLength(1) * InvaderWidth + (Invaders.GetLength(1) - 1) * (int)spacing;
+                InvasionWidth = (Invaders.GetLength(1) - 1) * InvaderWidth + (Invaders.GetLength(1) - 1) * (int)spacing;
                 InvasionHeight = Invaders.GetLength(0) * InvaderHeight + (Invaders.GetLength(0) - 1) * (int)spacing;
 
                 rows = Invaders.GetLength(0);
@@ -108,9 +185,9 @@ namespace Space_Invaders_clone
         {
             if (name == "move")
             {
-                #region move
+                #region Move
                 //Get the rectangles for move checks:
-                Rectangle invaders = new Rectangle((int)GetTopLeft().X, (int)GetTopLeft().Y, InvasionWidth, InvasionHeight);
+                Rectangle invaders = new Rectangle((int)TopLeft.X, (int)TopLeft.Y, InvasionWidth, InvasionHeight);
                 Rectangle screen = new Rectangle(0, 0, SpaceInvaders.Device.Viewport.Width, SpaceInvaders.Device.Viewport.Height);
 
                 if (direction == DirectionMoving.Left)
@@ -123,6 +200,9 @@ namespace Space_Invaders_clone
                         {
                             if (invader != null) invader.MoveLeft();
                         }
+
+                        //Also move the TopLeft position
+                        TopLeft.X -= BaseInvader.HowMuchToMove;
                     }
                     else
                     {
@@ -131,18 +211,24 @@ namespace Space_Invaders_clone
                             if (invader != null)  invader.MoveDown();
                             direction = DirectionMoving.Right;
                         }
+
+                        //Also move the TopLeft position
+                        TopLeft.Y += BaseInvader.HowMuchDown;
                     }
                 }
                 else if (direction == DirectionMoving.Right)
                 {
                     //Check if you can move to left (if there is space):
-                    if (invaders.Right + BaseInvader.HowMuchToMove <= screen.Right + BaseInvader.HowMuchToMove)
+                    if (invaders.Right + BaseInvader.HowMuchToMove <= screen.Right + BaseInvader.HowMuchToMove * 2)
                     {
                         //If so, move:
                         foreach (var invader in Invaders)
                         {
                             if (invader != null) invader.MoveRight();
                         }
+
+                        //Also move the TopLeft position
+                        TopLeft.X += BaseInvader.HowMuchToMove;
                     }
                     else
                     {
@@ -151,6 +237,9 @@ namespace Space_Invaders_clone
                             if (invader != null) invader.MoveDown();
                             direction = DirectionMoving.Left;
                         }
+
+                        //Also move the TopLeft position
+                        TopLeft.Y += BaseInvader.HowMuchDown;
                     }
                 }
                 #endregion
@@ -160,7 +249,7 @@ namespace Space_Invaders_clone
         }
         public override void Update()
         {
-            #region shoot
+            #region Shoot
             if (ObjectManager.Rand.NextDouble() < ShootChance)
             {
                 //Get all the bottom invaders of all the columns
@@ -210,5 +299,13 @@ namespace Space_Invaders_clone
                 LevelUp();
             }
         }
+        public override void Draw()
+        {
+            Rectangle rectangle = GetInvadersRectangle();
+
+            Texture2D RectangleTexture = TextureContainer.ColoredRectangle(Color.PeachPuff, rectangle.Width, rectangle.Height);
+
+            GameInfo.RefSpriteBatch.Draw(RectangleTexture, rectangle, Color.White);
+        } //for debugging
     }
 }
