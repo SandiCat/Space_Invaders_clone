@@ -48,7 +48,6 @@ namespace Space_Invaders_clone
 
             //Initialize the debug console:
             Console = new DebugConsole(spriteBatch, new Vector2(0, 0));
-            //DebuggConsoleFont = Content.Load<SpriteFont>("DebuggConsoleFont");
             Console.Font = DebuggConsoleFont;
 
             base.Initialize();
