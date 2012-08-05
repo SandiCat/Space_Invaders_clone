@@ -38,7 +38,7 @@ namespace Space_Invaders_clone
 
         public override void IntersectBoundary()
         {
-            base.IntersectBoundary();
+            DestroyObject(this);
         }
     }
 }

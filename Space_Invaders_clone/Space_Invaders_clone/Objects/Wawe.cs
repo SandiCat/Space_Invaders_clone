@@ -79,8 +79,8 @@ namespace Space_Invaders_clone
         }
         public void LevelUp() //Makes invasion faster and deadlier
         {
-            ShootChance = ShootChance + (ShootChance * 0.5f); //Increase ShootChance by 50%
-            Time = Time - (int)(Time * 0.1); //Decrease time by 10%
+            ShootChance += ShootChance * 0.5f; //Increase ShootChance by 50%
+            Time -= (int)(Time * 0.1); //Decrease time by 10%
         }
         public bool IsEmpty()
         {

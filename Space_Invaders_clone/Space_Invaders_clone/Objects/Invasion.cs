@@ -28,6 +28,7 @@ namespace Space_Invaders_clone
 
         public Wawe Current;
         public Vector2 MainPosition; //Where wawes start
+        int waweCounter = 1;
 
         public override void Create(GameObject createdObject)
         {
@@ -43,6 +44,11 @@ namespace Space_Invaders_clone
             {
                 DestroyObject(Current);
                 Current = (Wawe)CreateAndReturnObject(typeof(Wawe), MainPosition);
+
+                for (int i = 0; i < waweCounter; i++)
+                {
+                    Current.LevelUp();
+                }
             }
         }
     }
