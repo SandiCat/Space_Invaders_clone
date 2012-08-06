@@ -226,10 +226,11 @@ namespace Space_Invaders_clone
                         }
 
                         direction = DirectionMoving.Right;
-
                         PlayMoveSound();
+                        Time -= (int)(Time * 0.1); //Decrease time by 10%
                     }
                 }
+
                 else if (direction == DirectionMoving.Right)
                 {
                     //Check if you can move to left (if there is space):
@@ -251,8 +252,8 @@ namespace Space_Invaders_clone
                         }
 
                         direction = DirectionMoving.Left;
-
                         PlayMoveSound();
+                        Time -= (int)(Time * 0.1); //Decrease time by 10%
                     }
                 }
                 #endregion
