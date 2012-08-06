@@ -20,21 +20,20 @@ namespace Space_Invaders_clone
         Right
     }
 
-    public class Wawe : GameObject
+    public class Wave : GameObject
     {
-        public Wawe()
+        public Wave()
             : base()
         {
         }
-        public Wawe(Vector2 position)
+        public Wave(Vector2 position)
             : base(position)
         {
         }
 
         public BaseInvader[,] Invaders = new BaseInvader[5, 9];
         public Vector2 Positon;
-        public int Time = 50;
-        public int Wait = 120;
+        public int Time = 2;
         public float ShootChance = 0.003f;
         private float spacing = 15.0f; //The space between the rows
         private DirectionMoving direction = DirectionMoving.Right;
@@ -43,9 +42,6 @@ namespace Space_Invaders_clone
 
         private int InvaderWidth;
         private int InvaderHeight;
-
-        private int InvasionWidth;
-        private int InvasionHeight;
 
         public void FillInvaders()  
         {
@@ -77,7 +73,7 @@ namespace Space_Invaders_clone
                 yPosition += InvaderHeight + spacing;
             }
         }
-        public void LevelUp() //Makes invasion faster and deadlier
+        public void LevelUp() //Makes the wawe faster and deadlier
         {
             ShootChance += ShootChance * 0.5f; //Increase ShootChance by 50%
             Time -= (int)(Time * 0.1); //Decrease time by 10%
@@ -186,9 +182,6 @@ namespace Space_Invaders_clone
                 InvaderWidth = new InvaderType1().Sprite.GetRectangle().Width;
                 InvaderHeight = new InvaderType1().Sprite.GetRectangle().Height;
 
-                InvasionWidth = (Invaders.GetLength(1) - 1) * InvaderWidth + (Invaders.GetLength(1) - 1) * (int)spacing;
-                InvasionHeight = Invaders.GetLength(0) * InvaderHeight + (Invaders.GetLength(0) - 1) * (int)spacing;
-
                 rows = Invaders.GetLength(0);
                 columns = Invaders.GetLength(1);
                 FillInvaders();
@@ -290,6 +283,16 @@ namespace Space_Invaders_clone
             }
 
             #endregion
+        }
+        public override void Destroy(GameObject destroyedObject)
+        {
+            if (destroyedObject == this)
+            {
+                foreach (var invader in Invaders)
+                {
+                    DestroyObject(invader);
+                }
+            }
         }
 
         //Test:

@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\GameOverSign.cs" />
     <Compile Include="Objects\Invasion.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Invaders\BaseInvader.cs" />
@@ -116,7 +117,7 @@
     <Compile Include="Objects\Invaders\InvaderType3.cs" />
     <Compile Include="Objects\Invaders\InvaderType2.cs" />
     <Compile Include="Objects\Invaders\InvaderType1.cs" />
-    <Compile Include="Objects\Wawe.cs" />
+    <Compile Include="Objects\Wave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SpaceInvaders.cs" />
@@ -160,6 +161,11 @@
     <ProjectReference Include="..\..\..\Sandi_s_Way\Sandi%27s_Way\Sandi_s_Way.csproj">
       <Project>{7E24E051-4CD8-48DD-AA5F-D77FE9025FF0}</Project>
       <Name>Sandi_s_Way</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Space_Invaders_cloneContent\Space_Invaders_cloneContent.contentproj">
+      <Project>{7CCF1067-9D39-45A7-B6A3-5799BD7E498E}</Project>
+      <Name>Space_Invaders_cloneContent %28Content%29</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

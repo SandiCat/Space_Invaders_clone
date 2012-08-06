@@ -26,29 +26,40 @@ namespace Space_Invaders_clone
         }
 
 
-        public Wawe Current;
-        public Vector2 MainPosition; //Where wawes start
-        int waweCounter = 1;
+        public Wave Current;
+        public Vector2 MainPosition; //Where waves start
+        int waveCounter = 1;
+        int gameOverLine = 350;
 
         public override void Create(GameObject createdObject)
         {
             if (createdObject == this)
             {
                 MainPosition = Sprite.Position;
-                Current = (Wawe)CreateAndReturnObject(typeof(Wawe), MainPosition);
+                Current = (Wave)CreateAndReturnObject(typeof(Wave), MainPosition);
             }
         }
         public override void Update()
         {
+            //Spawn a new wave if the old one is destroyed
             if (Current.IsEmpty())
             {
                 DestroyObject(Current);
-                Current = (Wawe)CreateAndReturnObject(typeof(Wawe), MainPosition);
+                Current = (Wave)CreateAndReturnObject(typeof(Wave), MainPosition);
 
-                for (int i = 0; i < waweCounter; i++)
+                for (int i = 0; i < waveCounter; i++)
                 {
                     Current.LevelUp();
                 }
+            }
+
+            //Check for a game over
+            if (Current.GetInvadersRectangle().Bottom >= gameOverLine)
+            {
+                ObjectManager.Clear();
+                int screenWidth = SpaceInvaders.Device.Viewport.Width;
+                int screenHeight = SpaceInvaders.Device.Viewport.Height;
+                CreateObject(typeof(GameOverSign), new Vector2(screenWidth / 2, screenHeight / 2));
             }
         }
     }
