@@ -33,12 +33,13 @@ namespace Space_Invaders_clone
 
         public BaseInvader[,] Invaders = new BaseInvader[5, 9];
         public Vector2 Positon;
-        public int Time = 2;
+        public int Time = 50;
         public float ShootChance = 0.003f;
         private float spacing = 15.0f; //The space between the rows
         private DirectionMoving direction = DirectionMoving.Right;
         private int rows;
         private int columns;
+        private int moveSoundCounter = 4; //this is used so i can play the move sound with a different pitch each fourth time
 
         private int InvaderWidth;
         private int InvaderHeight;
@@ -170,6 +171,15 @@ namespace Space_Invaders_clone
 
             return new Rectangle((int)topLeft.X, (int)topLeft.Y, width, height);
         }
+        private void PlayMoveSound()
+        {
+            //Update move sound counter:
+            if (moveSoundCounter > 0) moveSoundCounter--;
+            else moveSoundCounter = 3;
+
+            //Play the sound acordingly:
+            BaseInvader.MoveSound.Play(1.0f, 0.1f * moveSoundCounter, 0.0f);
+        }
 
         public override void Create(GameObject createdObject)
         {
@@ -206,14 +216,18 @@ namespace Space_Invaders_clone
                         {
                             if (invader != null) invader.MoveLeft();
                         }
+                        PlayMoveSound();
                     }
                     else
                     {
                         foreach (var invader in Invaders)
                         {
                             if (invader != null)  invader.MoveDown();
-                            direction = DirectionMoving.Right;
                         }
+
+                        direction = DirectionMoving.Right;
+
+                        PlayMoveSound();
                     }
                 }
                 else if (direction == DirectionMoving.Right)
@@ -226,14 +240,19 @@ namespace Space_Invaders_clone
                         {
                             if (invader != null) invader.MoveRight();
                         }
+
+                        PlayMoveSound();
                     }
                     else
                     {
                         foreach (var invader in Invaders)
                         {
                             if (invader != null) invader.MoveDown();
-                            direction = DirectionMoving.Left;
                         }
+
+                        direction = DirectionMoving.Left;
+
+                        PlayMoveSound();
                     }
                 }
                 #endregion

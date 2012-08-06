@@ -30,6 +30,8 @@ namespace Space_Invaders_clone
         bool canShoot = true;
         int canShootTime = 10;
 
+        public static SoundEffect ShootSound;
+
         public override void Create(GameObject createdObject)
         {
             if (createdObject == this)
@@ -57,6 +59,8 @@ namespace Space_Invaders_clone
 
                 canShoot = false;
                 Alarms["reset canShoot"].Restart(canShootTime);
+
+                ShootSound.Play();
             }
 
             //Prevent the ship from leaving the screen:

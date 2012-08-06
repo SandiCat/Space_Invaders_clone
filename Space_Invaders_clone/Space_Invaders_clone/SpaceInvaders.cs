@@ -23,7 +23,6 @@ namespace Space_Invaders_clone
 
         //The debug console:
         public static DebugConsole Console;
-        SpriteFont DebuggConsoleFont;
 
         public SpaceInvaders()
         {
@@ -37,7 +36,7 @@ namespace Space_Invaders_clone
             Device = graphics.GraphicsDevice;
 
             //Initialize game info:
-            graphics.PreferredBackBufferWidth = 64 + 557 + 72;
+            graphics.PreferredBackBufferWidth = 586;
             graphics.PreferredBackBufferHeight = 64 + 348 + 174 + 52;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
@@ -48,7 +47,6 @@ namespace Space_Invaders_clone
 
             //Initialize the debug console:
             Console = new DebugConsole(spriteBatch, new Vector2(0, 0));
-            Console.Font = DebuggConsoleFont;
 
             base.Initialize();
         }
@@ -65,6 +63,8 @@ namespace Space_Invaders_clone
             //Initialize the texture container:
             TextureContainer.Initialize();
 
+            Console.Font = Content.Load<SpriteFont>("DebuggConsoleFont");
+
             //Initialize default sprites:
             int width = 40;
             int height = 25;
@@ -75,6 +75,12 @@ namespace Space_Invaders_clone
             TextureContainer.DefaultTextures[typeof(Player)] = TextureContainer.ColoredRectangle(Color.Green, 53, 32);
             TextureContainer.DefaultTextures[typeof(PlayerBullet)] = TextureContainer.ColoredRectangle(Color.Green, 5, 13);
             TextureContainer.DefaultTextures[typeof(GameOverSign)] = TextureContainer.AddTextureAndReturn("Game over");
+
+            //Load sounds:
+            Player.ShootSound = Content.Load<SoundEffect>("Laser");
+            BaseInvader.ShootSound = Content.Load<SoundEffect>("Laser");
+            BaseInvader.MoveSound = Content.Load<SoundEffect>("Invader move");
+            BaseInvader.ExplodeSound = Content.Load<SoundEffect>("Explosion");
 
             //Create game objects:
             ObjectManager.InstantCreate(typeof(Invasion), new Vector2(64, 64));

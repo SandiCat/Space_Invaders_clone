@@ -21,6 +21,10 @@ namespace Space_Invaders_clone
         public static int HowMuchDown = 30;
         public static int BulletSpeed = 3;
 
+        public static SoundEffect ShootSound;
+        public static SoundEffect MoveSound;
+        public static SoundEffect ExplodeSound;
+
         public BaseInvader()
             : base()
         {
@@ -46,6 +50,8 @@ namespace Space_Invaders_clone
         {
             Vector2 belowInvader = Sprite.Position + new Vector2(53 / 2 - 5, 32);
             CreateMovingObject(typeof(EnemyBullet), belowInvader, Directions.Down, BulletSpeed);
+
+            ShootSound.Play();
         }
 
         public override void Collision(List<GameObject> collisions)
@@ -56,6 +62,13 @@ namespace Space_Invaders_clone
                 {
                     DestroyObject(this);
                 }
+            }
+        }
+        public override void Destroy(GameObject destroyedObject)
+        {
+            if (destroyedObject == this)
+            {
+                ExplodeSound.Play();
             }
         }
     }
