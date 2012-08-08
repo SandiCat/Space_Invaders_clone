@@ -41,11 +41,22 @@ namespace Space_Invaders_clone
         }
         public override void Update()
         {
-            //Spawn a new wave if the old one is destroyed
+            //Check if the wawe is destroyed
             if (Current.IsEmpty())
             {
+                //Spawn new wawe
                 DestroyObject(Current);
                 Current = (Wave)CreateAndReturnObject(typeof(Wave), MainPosition);
+
+                //Reset barrier blocks
+                foreach (var obj in ObjectManager.Objects)
+                {
+                    if (obj.GetType() == typeof(Block))
+                    {
+                        DestroyObject(obj);
+                    }
+                }
+                BlockMaker.MakeANewSetOfBlocks();
 
                 for (int i = 0; i < waveCounter; i++)
                 {

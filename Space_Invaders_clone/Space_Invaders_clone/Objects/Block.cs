@@ -34,7 +34,7 @@ namespace Space_Invaders_clone
             int amountOfPixels = blockSide * blockSide;
             int amountToDelete = amountOfPixels / 4; //4 is the default amount of hit points
 
-            for (int i = 0; i < amountToDelete; i++)
+            //for (int i = 0; i < amountToDelete; i++)
         }
 
         public override void Collision(List<GameObject> collisions)

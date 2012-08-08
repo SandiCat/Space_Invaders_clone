@@ -16,8 +16,9 @@ namespace Space_Invaders_clone
 {
     public static class BlockMaker
     {
-        static int howManyBlocks = 4;
-        static int howFarApart = 50; 
+        static int howManyBlocks = 3;
+        static int howFarApart = 100;
+        public static readonly Vector2 Position = new Vector2(64, 400);
 
         private static void MakeOneBlock(Vector2 position)
         {
@@ -37,13 +38,13 @@ namespace Space_Invaders_clone
                 "x00x");
         }
 
-        public static void MakeANewSetOfBlocks(Vector2 position)
+        public static void MakeANewSetOfBlocks()
         {
             int blockStructureWidth = new Block().Sprite.Image.Height * 4;
 
             for (int i = 0; i < howManyBlocks; i++)
             {
-                MakeOneBlock(new Vector2(position.X + blockStructureWidth * i + howFarApart * i, position.Y));
+                MakeOneBlock(new Vector2(Position.X + blockStructureWidth * i + howFarApart * i, Position.Y));
             }
         }
     }
