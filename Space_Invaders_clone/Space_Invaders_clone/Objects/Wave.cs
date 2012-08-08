@@ -39,7 +39,7 @@ namespace Space_Invaders_clone
         private DirectionMoving direction = DirectionMoving.Right;
         private int rows;
         private int columns;
-        private int moveSoundCounter = 4; //this is used so i can play the move sound with a different pitch each fourth time
+        private int moveSoundCounter = 4; //this is used so i can play the move sound with a descending pitch
 
         private int InvaderWidth;
         private int InvaderHeight;

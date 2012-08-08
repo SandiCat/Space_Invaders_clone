@@ -107,6 +107,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\BlockMaker.cs" />
+    <Compile Include="Objects\Block.cs" />
     <Compile Include="Objects\GameOverSign.cs" />
     <Compile Include="Objects\Invasion.cs" />
     <Compile Include="Objects\Player.cs" />
