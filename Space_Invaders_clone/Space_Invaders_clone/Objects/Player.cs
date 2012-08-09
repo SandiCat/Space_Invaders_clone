@@ -42,21 +42,10 @@ namespace Space_Invaders_clone
                         //Creates it where the player shoots bullets
                 }
             }
-            public override void KeyDown(List<Keys> keys)
+            public override void Update()
             {
-                if (keys.Contains(Keys.Left))
-                {
-                    StepAngle(Directions.Left, Player.speed);
-                }
-
-                if (keys.Contains(Keys.Right))
-                {
-                    StepAngle(Directions.Right, Player.speed);
-                }
-
-                //Prevent the object  from leaving the screen:
-                Rectangle screen = new Rectangle(0, 0, SpaceInvaders.Device.Viewport.Width, SpaceInvaders.Device.Viewport.Height);
-                Sprite.Position.X = MathHelper.Clamp(Sprite.Position.X, screen.Left, screen.Right - Sprite.Image.Width);
+                Sprite.Position.X = Player.Sprite.Position.X + 25; //If the size of the player or the bullet are ever changed, this would need tweaking
+                Sprite.Position.Y= BlockMaker.Position.Y;
             }
 
             public bool IsCollidingWithBlocks()
