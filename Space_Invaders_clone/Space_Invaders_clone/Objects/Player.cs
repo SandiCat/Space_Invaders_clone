@@ -131,10 +131,18 @@ namespace Space_Invaders_clone
             {
                 if (obj.GetType() == typeof(EnemyBullet))
                 {
-                    ObjectManager.Clear();
-                    int screenWidth = SpaceInvaders.Device.Viewport.Width;
-                    int screenHeight = SpaceInvaders.Device.Viewport.Height;
-                    CreateObject(typeof(GameOverSign), new Vector2(screenWidth / 2, screenHeight / 2));
+                    if (SpaceInvaders.RefLife.HitPoints != 0)
+                    {
+                        SpaceInvaders.RefLife.HitPoints--;
+                        DestroyObject(obj);
+                    }
+                    else
+                    {
+                        ObjectManager.Clear();
+                        int screenWidth = SpaceInvaders.Device.Viewport.Width;
+                        int screenHeight = SpaceInvaders.Device.Viewport.Height;
+                        CreateObject(typeof(GameOverSign), new Vector2(screenWidth / 2, screenHeight / 2));
+                    }
                 }
             }
         }

@@ -26,6 +26,7 @@ namespace Space_Invaders_clone
 
         //References:
         public static Score RefScore;
+        public static LifeBar RefLife;
 
         public SpaceInvaders()
         {
@@ -93,9 +94,11 @@ namespace Space_Invaders_clone
             ObjectManager.InstantCreate(typeof(Player), new Vector2(Device.Viewport.Width / 2 - 25, Device.Viewport.Height - 32 - 10));
             BlockMaker.MakeANewSetOfBlocks();
             ObjectManager.InstantCreate(typeof(Score), new Vector2(0, 0));
+            ObjectManager.InstantCreate(typeof(LifeBar), new Vector2(386, 15));
 
-            //Make a reference to the score object: (so that other objects can add score
+            //Make a reference to the UI objects: (so that other objects can interact with them)
             RefScore = (Score)ObjectManager.Get(typeof(Score))[0];
+            RefLife = (LifeBar)ObjectManager.Get(typeof(LifeBar))[0];
         }
 
         protected override void UnloadContent()

@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Objects\Barriers\BlockMaker.cs" />
     <Compile Include="Objects\Barriers\Block.cs" />
+    <Compile Include="Objects\UI\LifeBar.cs" />
     <Compile Include="Objects\UI\ScorePopUp.cs" />
     <Compile Include="Objects\UI\Score.cs" />
     <Compile Include="Objects\UI\GameOverSign.cs" />
