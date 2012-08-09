@@ -24,6 +24,9 @@ namespace Space_Invaders_clone
         //The debug console:
         public static DebugConsole Console;
 
+        //References:
+        public static Score RefScore;
+
         public SpaceInvaders()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -40,7 +43,7 @@ namespace Space_Invaders_clone
             graphics.PreferredBackBufferHeight = 64 + 348 + 174 + 52;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            Window.Title = "Riemer's 2D XNA Tutorial";
+            Window.Title = "Space Invaders by Sandi Dusic";
 
             //Initialize the static classes:
             ObjectManager.Initialize();
@@ -63,7 +66,9 @@ namespace Space_Invaders_clone
             //Initialize the texture container:
             TextureContainer.Initialize();
 
+            //Load fonts:
             Console.Font = Content.Load<SpriteFont>("DebuggConsoleFont");
+            Score.Font = Content.Load<SpriteFont>("Score");
 
             //Initialize default sprites:
             int width = 40;
@@ -87,6 +92,10 @@ namespace Space_Invaders_clone
             ObjectManager.InstantCreate(typeof(Invasion), new Vector2(64, 64));
             ObjectManager.InstantCreate(typeof(Player), new Vector2(Device.Viewport.Width / 2 - 25, Device.Viewport.Height - 32 - 10));
             BlockMaker.MakeANewSetOfBlocks();
+            ObjectManager.InstantCreate(typeof(Score), new Vector2(0, 0));
+
+            //Make a reference to the score object: (so that other objects can add score
+            RefScore = (Score)ObjectManager.Get(typeof(Score))[0];
         }
 
         protected override void UnloadContent()

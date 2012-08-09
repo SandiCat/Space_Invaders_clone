@@ -21,6 +21,8 @@ namespace Space_Invaders_clone
         public static int HowMuchDown = 30;
         public static int BulletSpeed = 3;
 
+        public static int Points = 100; //Points for killing
+
         public static SoundEffect ShootSound;
         public static SoundEffect MoveSound;
         public static SoundEffect ExplodeSound;
@@ -69,6 +71,7 @@ namespace Space_Invaders_clone
             if (destroyedObject == this)
             {
                 ExplodeSound.Play(0.5f, 0.2f, 0.0f);
+                SpaceInvaders.RefScore.Amount += Points;
             }
         }
     }

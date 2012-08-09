@@ -107,10 +107,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\BlockMaker.cs" />
-    <Compile Include="Objects\Block.cs" />
-    <Compile Include="Objects\GameOverSign.cs" />
-    <Compile Include="Objects\Invasion.cs" />
+    <Compile Include="Objects\Barriers\BlockMaker.cs" />
+    <Compile Include="Objects\Barriers\Block.cs" />
+    <Compile Include="Objects\UI\Score.cs" />
+    <Compile Include="Objects\UI\GameOverSign.cs" />
+    <Compile Include="Objects\Invasion\Invasion.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Invaders\BaseInvader.cs" />
     <Compile Include="Objects\Bullets\BaseBullet.cs" />
@@ -119,7 +120,7 @@
     <Compile Include="Objects\Invaders\InvaderType3.cs" />
     <Compile Include="Objects\Invaders\InvaderType2.cs" />
     <Compile Include="Objects\Invaders\InvaderType1.cs" />
-    <Compile Include="Objects\Wave.cs" />
+    <Compile Include="Objects\Invasion\Wave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SpaceInvaders.cs" />
