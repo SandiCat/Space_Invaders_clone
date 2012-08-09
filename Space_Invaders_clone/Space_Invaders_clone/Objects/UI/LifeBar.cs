@@ -29,6 +29,15 @@ namespace Space_Invaders_clone
         Texture2D redPellet;
         const int beginingHitPoints = 10;
         public int HitPoints = beginingHitPoints;
+        public static SoundEffect PlayerHit;
+
+        public void TakeDamage(int howMuch)
+        {
+            HitPoints -= howMuch;
+
+            float randomPitch = (float)ObjectManager.Rand.NextDouble();
+            PlayerHit.Play(1.0f, randomPitch, 0.0f);
+        }
 
         public override void  Create(GameObject createdObject)
         {

@@ -88,6 +88,7 @@ namespace Space_Invaders_clone
             BaseInvader.ShootSound = Content.Load<SoundEffect>("Laser");
             BaseInvader.MoveSound = Content.Load<SoundEffect>("Invader move");
             BaseInvader.ExplodeSound = Content.Load<SoundEffect>("Explosion");
+            LifeBar.PlayerHit = Content.Load<SoundEffect>("PlayerHit");
 
             //Create game objects:
             ObjectManager.InstantCreate(typeof(Invasion), new Vector2(64, 64));

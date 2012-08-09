@@ -72,7 +72,7 @@ namespace Space_Invaders_clone
         }
 
         int speed = 5;
-        int bulletSpeed = 5;
+        int bulletSpeed = 10;
         bool canShoot = true;
         int canShootTime = 40;
         int shortCanShootTime = 10; //for when player is under blocks
@@ -133,7 +133,7 @@ namespace Space_Invaders_clone
                 {
                     if (SpaceInvaders.RefLife.HitPoints != 0)
                     {
-                        SpaceInvaders.RefLife.HitPoints--;
+                        SpaceInvaders.RefLife.TakeDamage(1);
                         DestroyObject(obj);
                     }
                     else
