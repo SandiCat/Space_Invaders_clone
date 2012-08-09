@@ -25,16 +25,14 @@ namespace Space_Invaders_clone
         {
         }
 
-        int hitPoints = 4;
+        int hitPoints = 3;
 
         private void DestroyImage() //destroyes some pixels in the image
         {
             int blockSide = new Block().Sprite.Image.Height;
 
             int amountOfPixels = blockSide * blockSide;
-            int amountToDelete = amountOfPixels / 4; //4 is the default amount of hit points
-
-            //for (int i = 0; i < amountToDelete; i++)
+            int amountToDelete = amountOfPixels / 3; //3 is the default amount of hit points
         }
 
         public override void Collision(List<GameObject> collisions)

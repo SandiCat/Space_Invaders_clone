@@ -71,7 +71,7 @@ namespace Space_Invaders_clone
             if (destroyedObject == this)
             {
                 ExplodeSound.Play(0.5f, 0.2f, 0.0f);
-                SpaceInvaders.RefScore.Amount += Points;
+                SpaceInvaders.RefScore.AddPoints(Points);
             }
         }
     }

@@ -26,12 +26,23 @@ namespace Space_Invaders_clone
         }
 
         public static SpriteFont Font;
-        public int Amount = 0;
+        private int amount = 0;
         public Vector2 Position = new Vector2(10, 10);
+
+        public void AddPoints(int points)
+        {
+            amount += points;
+
+            //Create an score pop up 
+            float lenghtOfScoreString = Font.MeasureString(amount.ToString()).X;
+            Vector2 afterScore = new Vector2(Position.X + lenghtOfScoreString + 10, Position.Y);
+            ScorePopUp popUp = (ScorePopUp)CreateAndReturnObject(typeof(ScorePopUp), afterScore);
+            popUp.Amount = points;
+        }
 
         public override void Draw()
         {
-            GameInfo.RefSpriteBatch.DrawString(Font, Amount.ToString(), Position, Color.Yellow);
+            GameInfo.RefSpriteBatch.DrawString(Font, amount.ToString(), Position, Color.Yellow);
         }
     }
 }
