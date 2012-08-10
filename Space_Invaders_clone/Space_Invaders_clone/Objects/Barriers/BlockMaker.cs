@@ -16,9 +16,9 @@ namespace Space_Invaders_clone
 {
     public static class BlockMaker
     {
-        static int howManyBlocks = 3;
-        static int howFarApart = 100;
-        public static readonly Vector2 Position = new Vector2(64, 400);
+        static int howManyBlocks = 4;
+        static int howFarApart = 60;
+        public static readonly Vector2 Position = new Vector2(64, 380);
 
         private static void MakeOneBlock(Vector2 position)
         {

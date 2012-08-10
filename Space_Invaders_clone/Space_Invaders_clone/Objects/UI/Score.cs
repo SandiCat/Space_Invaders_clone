@@ -27,7 +27,6 @@ namespace Space_Invaders_clone
 
         public static SpriteFont Font;
         private int amount = 0;
-        public Vector2 Position = new Vector2(10, 10);
 
         public void AddPoints(int points)
         {
@@ -35,14 +34,14 @@ namespace Space_Invaders_clone
 
             //Create an score pop up 
             float lenghtOfScoreString = Font.MeasureString(amount.ToString()).X;
-            Vector2 afterScore = new Vector2(Position.X + lenghtOfScoreString + 10, Position.Y);
+            Vector2 afterScore = new Vector2(Sprite.Position.X + lenghtOfScoreString + 10, Sprite.Position.Y);
             ScorePopUp popUp = (ScorePopUp)CreateAndReturnObject(typeof(ScorePopUp), afterScore);
             popUp.Amount = points;
         }
 
         public override void Draw()
         {
-            GameInfo.RefSpriteBatch.DrawString(Font, amount.ToString(), Position, Color.Yellow);
+            GameInfo.RefSpriteBatch.DrawString(Font, amount.ToString(), Sprite.Position, Color.Yellow);
         }
     }
 }

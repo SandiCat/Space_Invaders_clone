@@ -40,8 +40,8 @@ namespace Space_Invaders_clone
             Device = graphics.GraphicsDevice;
 
             //Initialize game info:
-            graphics.PreferredBackBufferWidth = 586;
-            graphics.PreferredBackBufferHeight = 64 + 348 + 174 + 52;
+            graphics.PreferredBackBufferWidth = 620;
+            graphics.PreferredBackBufferHeight = 500;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             Window.Title = "Space Invaders by Sandi Dusic";
@@ -78,7 +78,7 @@ namespace Space_Invaders_clone
             TextureContainer.DefaultTextures[typeof(InvaderType2)] = TextureContainer.ColoredRectangle(Color.Yellow, width, height);
             TextureContainer.DefaultTextures[typeof(InvaderType3)] = TextureContainer.ColoredRectangle(Color.Blue, width, height);
             TextureContainer.DefaultTextures[typeof(EnemyBullet)] = TextureContainer.ColoredRectangle(Color.Blue, 8, 16);
-            TextureContainer.DefaultTextures[typeof(Player)] = TextureContainer.ColoredRectangle(Color.Green, 50, 32);
+            TextureContainer.DefaultTextures[typeof(Player)] = TextureContainer.ColoredRectangle(Color.Green, 50, 30);
             TextureContainer.DefaultTextures[typeof(PlayerBullet)] = TextureContainer.ColoredRectangle(Color.Green, 5, 13);
             TextureContainer.DefaultTextures[typeof(GameOverSign)] = TextureContainer.AddTextureAndReturn("Game over");
             TextureContainer.DefaultTextures[typeof(Block)] = TextureContainer.ColoredRectangle(Color.LightGreen, 20, 20);
@@ -91,10 +91,10 @@ namespace Space_Invaders_clone
             LifeBar.PlayerHit = Content.Load<SoundEffect>("PlayerHit");
 
             //Create game objects:
-            ObjectManager.InstantCreate(typeof(Invasion), new Vector2(64, 64));
-            ObjectManager.InstantCreate(typeof(Player), new Vector2(Device.Viewport.Width / 2 - 25, Device.Viewport.Height - 32 - 10));
+            ObjectManager.InstantCreate(typeof(Invasion), new Vector2(90, 85));
+            ObjectManager.InstantCreate(typeof(Player), new Vector2(Device.Viewport.Width / 2 - 25, 460));
             BlockMaker.MakeANewSetOfBlocks();
-            ObjectManager.InstantCreate(typeof(Score), new Vector2(0, 0));
+            ObjectManager.InstantCreate(typeof(Score), new Vector2(10, 10));
             ObjectManager.InstantCreate(typeof(LifeBar), new Vector2(386, 15));
 
             //Make a reference to the UI objects: (so that other objects can interact with them)

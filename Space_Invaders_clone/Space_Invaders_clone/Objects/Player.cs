@@ -37,7 +37,7 @@ namespace Space_Invaders_clone
                     Solid = false;
 
                     int blockSide = new Block().Sprite.Image.Height; //Since a block is square shaped it dosen't matter wich side you take
-                    Sprite = new Sprite(TextureContainer.ColoredRectangle(Color.White, new PlayerBullet().Sprite.Image.Width, 
+                    Sprite = new Sprite(TextureContainer.ColoredRectangle(Color.White, 3, 
                         blockSide * 3), new Vector2(SpaceInvaders.Device.Viewport.Width / 2, BlockMaker.Position.Y));
                         //Creates it where the player shoots bullets
                 }

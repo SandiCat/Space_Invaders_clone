@@ -29,7 +29,7 @@ namespace Space_Invaders_clone
         public Wave Current;
         public Vector2 MainPosition; //Where waves start
         int waveCounter = 1;
-        int gameOverLine = 350;
+        int gameOverLine = 370;
 
         public override void Create(GameObject createdObject)
         {

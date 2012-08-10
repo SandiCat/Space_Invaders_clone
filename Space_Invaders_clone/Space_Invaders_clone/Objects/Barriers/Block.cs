@@ -27,14 +27,6 @@ namespace Space_Invaders_clone
 
         int hitPoints = 3;
 
-        private void DestroyImage() //destroyes some pixels in the image
-        {
-            int blockSide = new Block().Sprite.Image.Height;
-
-            int amountOfPixels = blockSide * blockSide;
-            int amountToDelete = amountOfPixels / 3; //3 is the default amount of hit points
-        }
-
         public override void Collision(List<GameObject> collisions)
         {
             foreach (var obj in collisions)
