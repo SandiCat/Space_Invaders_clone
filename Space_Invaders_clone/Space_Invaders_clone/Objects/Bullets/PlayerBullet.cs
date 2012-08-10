@@ -33,6 +33,10 @@ namespace Space_Invaders_clone
                 {
                     DestroyObject(this);
                 }
+                if (obj.GetType() == typeof(SpecialInvader))
+                {
+                    DestroyObject(this);
+                }
             }
         }
 

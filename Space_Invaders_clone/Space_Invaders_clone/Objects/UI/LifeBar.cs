@@ -43,8 +43,8 @@ namespace Space_Invaders_clone
         {
             if (createdObject == this)
             {
-                greenPellet = TextureContainer.ColoredRectangle(Color.Green, 10, 25);
-                redPellet = TextureContainer.ColoredRectangle(Color.Red, 10, 25);
+                greenPellet = TextureContainer.ColoredRectangle(Color.Green, 10, 18);
+                redPellet = TextureContainer.ColoredRectangle(Color.Red, 10, 18);
             }
         }
         public override void Draw()

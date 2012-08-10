@@ -29,7 +29,8 @@ namespace Space_Invaders_clone
         public Wave Current;
         public Vector2 MainPosition; //Where waves start
         int waveCounter = 1;
-        int gameOverLine = 370;
+        public static int GameOverLine = 370;
+        const double chanceOfSpawningSpecial = 0.001;
 
         public override void Create(GameObject createdObject)
         {
@@ -41,10 +42,10 @@ namespace Space_Invaders_clone
         }
         public override void Update()
         {
-            //Check if the wawe is destroyed
+            //Check if the wave is destroyed:
             if (Current.IsEmpty())
             {
-                //Spawn new wawe
+                //Spawn new wave
                 DestroyObject(Current);
                 Current = (Wave)CreateAndReturnObject(typeof(Wave), MainPosition);
 
@@ -58,19 +59,26 @@ namespace Space_Invaders_clone
                 }
                 BlockMaker.MakeANewSetOfBlocks();
 
+                //Level up the invasion
                 for (int i = 0; i < waveCounter; i++)
                 {
                     Current.LevelUp();
                 }
             }
 
-            //Check for a game over
-            if (Current.GetInvadersRectangle().Bottom >= gameOverLine)
+            //Check for a game over:
+            if (Current.GetInvadersRectangle().Bottom >= GameOverLine)
             {
                 ObjectManager.Clear();
                 int screenWidth = SpaceInvaders.Device.Viewport.Width;
                 int screenHeight = SpaceInvaders.Device.Viewport.Height;
                 CreateObject(typeof(GameOverSign), new Vector2(screenWidth / 2, screenHeight / 2));
+            }
+
+            //Spawn special invaders:
+            if (ObjectManager.Rand.NextDouble() < chanceOfSpawningSpecial)
+            {
+                SpecialInvader.MakeIt();
             }
         }
     }

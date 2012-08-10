@@ -77,24 +77,26 @@ namespace Space_Invaders_clone
             TextureContainer.DefaultTextures[typeof(InvaderType1)] = TextureContainer.ColoredRectangle(Color.Red, width, height);
             TextureContainer.DefaultTextures[typeof(InvaderType2)] = TextureContainer.ColoredRectangle(Color.Yellow, width, height);
             TextureContainer.DefaultTextures[typeof(InvaderType3)] = TextureContainer.ColoredRectangle(Color.Blue, width, height);
+            TextureContainer.DefaultTextures[typeof(SpecialInvader)] = TextureContainer.ColoredRectangle(Color.Orange, 45, 20);
             TextureContainer.DefaultTextures[typeof(EnemyBullet)] = TextureContainer.ColoredRectangle(Color.Blue, 8, 16);
             TextureContainer.DefaultTextures[typeof(Player)] = TextureContainer.ColoredRectangle(Color.Green, 50, 30);
             TextureContainer.DefaultTextures[typeof(PlayerBullet)] = TextureContainer.ColoredRectangle(Color.Green, 5, 13);
             TextureContainer.DefaultTextures[typeof(GameOverSign)] = TextureContainer.AddTextureAndReturn("Game over");
-            TextureContainer.DefaultTextures[typeof(Block)] = TextureContainer.ColoredRectangle(Color.LightGreen, 20, 20);
+            TextureContainer.DefaultTextures[typeof(Block)] = TextureContainer.ColoredRectangle(Color.LightGreen, 20, 20)
 
             //Load sounds:
             Player.ShootSound = Content.Load<SoundEffect>("Laser");
             BaseInvader.ShootSound = Content.Load<SoundEffect>("Laser");
             BaseInvader.MoveSound = Content.Load<SoundEffect>("Invader move");
             BaseInvader.ExplodeSound = Content.Load<SoundEffect>("Explosion");
+            SpecialInvader.ExplodeSound = Content.Load<SoundEffect>("Explosion");
             LifeBar.PlayerHit = Content.Load<SoundEffect>("PlayerHit");
 
             //Create game objects:
             ObjectManager.InstantCreate(typeof(Invasion), new Vector2(90, 85));
             ObjectManager.InstantCreate(typeof(Player), new Vector2(Device.Viewport.Width / 2 - 25, 460));
             BlockMaker.MakeANewSetOfBlocks();
-            ObjectManager.InstantCreate(typeof(Score), new Vector2(10, 10));
+            ObjectManager.InstantCreate(typeof(Score), new Vector2(20, 15));
             ObjectManager.InstantCreate(typeof(LifeBar), new Vector2(386, 15));
 
             //Make a reference to the UI objects: (so that other objects can interact with them)

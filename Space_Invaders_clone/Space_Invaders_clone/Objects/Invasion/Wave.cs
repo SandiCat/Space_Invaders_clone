@@ -34,7 +34,7 @@ namespace Space_Invaders_clone
         public BaseInvader[,] Invaders = new BaseInvader[5, 9];
         public Vector2 Positon;
         public int Time = 50;
-        public float ShootChance = 0.003f;
+        public double ShootChance = 0.003;
         private float spacing = 15.0f; //The space between the rows
         private DirectionMoving direction = DirectionMoving.Right;
         private int rows;
