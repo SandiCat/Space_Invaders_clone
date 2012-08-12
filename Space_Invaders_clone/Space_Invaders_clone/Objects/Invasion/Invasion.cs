@@ -30,7 +30,6 @@ namespace Space_Invaders_clone
         public Vector2 MainPosition; //Where waves start
         int waveCounter = 1;
         public static int GameOverLine = 370;
-        const double chanceOfSpawningSpecial = 0.001;
 
         public override void Create(GameObject createdObject)
         {
@@ -73,12 +72,6 @@ namespace Space_Invaders_clone
                 int screenWidth = SpaceInvaders.Device.Viewport.Width;
                 int screenHeight = SpaceInvaders.Device.Viewport.Height;
                 CreateObject(typeof(GameOverSign), new Vector2(screenWidth / 2, screenHeight / 2));
-            }
-
-            //Spawn special invaders:
-            if (ObjectManager.Rand.NextDouble() < chanceOfSpawningSpecial)
-            {
-                SpecialInvader.MakeIt();
             }
         }
     }

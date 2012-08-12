@@ -33,8 +33,9 @@ namespace Space_Invaders_clone
 
         public BaseInvader[,] Invaders = new BaseInvader[5, 9];
         public Vector2 Positon;
-        public int Time = 50;
-        public double ShootChance = 0.003;
+        public int MoveTime = 50;
+        public int ShootTimeTop = 60 * 3;
+        public int ShootTimeBottom = 60;
         private float spacing = 15.0f; //The space between the rows
         private DirectionMoving direction = DirectionMoving.Right;
         private int rows;
@@ -76,8 +77,9 @@ namespace Space_Invaders_clone
         }
         public void LevelUp() //Makes the wawe faster and deadlier
         {
-            ShootChance += ShootChance * 0.5f; //Increase ShootChance by 50%
-            Time -= (int)(Time * 0.1); //Decrease time by 10%
+            ShootTimeTop -= (int)(ShootTimeTop * 0.1); //Decrease by 10%
+            ShootTimeBottom -= (int)(ShootTimeBottom * 0.1); //Decrease by 10%
+            MoveTime -= (int)(MoveTime * 0.1); //Decrease by 10%
         }
         public bool IsEmpty()
         {
@@ -187,7 +189,8 @@ namespace Space_Invaders_clone
             {
                 Positon = Sprite.Position;
                 
-                Alarms.Add("move", new Alarm(Time));
+                Alarms.Add("move", new Alarm(MoveTime));
+                Alarms.Add("shoot", new Alarm(ObjectManager.Rand.Next(ShootTimeBottom, ShootTimeTop)));
 
                 InvaderWidth = new InvaderType1().Sprite.GetRectangle().Width;
                 InvaderHeight = new InvaderType1().Sprite.GetRectangle().Height;
@@ -227,7 +230,7 @@ namespace Space_Invaders_clone
 
                         direction = DirectionMoving.Right;
                         PlayMoveSound();
-                        Time -= (int)(Time * 0.1); //Decrease time by 10%
+                        MoveTime -= (int)(MoveTime * 0.1); //Decrease time by 10%
                     }
                 }
 
@@ -253,39 +256,44 @@ namespace Space_Invaders_clone
 
                         direction = DirectionMoving.Left;
                         PlayMoveSound();
-                        Time -= (int)(Time * 0.1); //Decrease time by 10%
+                        MoveTime -= (int)(MoveTime * 0.1); //Decrease time by 10%
                     }
                 }
                 #endregion
 
-                Alarms["move"].Restart(Time);
+                Alarms["move"].Restart(MoveTime);
+            }
+            
+            if (name == "shoot")
+            {
+                #region shoot
+                if (!IsEmpty())
+                {
+                    //Get all the bottom invaders of all the columns
+                    List<BaseInvader> bottomRow = new List<BaseInvader>();
+
+                    for (int i = 0; i < columns; i++) //for each column
+                    {
+                        for (int j = rows - 1; j >= 0; j--) //go from the bottom up, the first invader you find is the bottom one
+                        {
+                            if (Invaders[j, i] != null)
+                            {
+                                bottomRow.Add(Invaders[j, i]);
+                                break;
+                            }
+                        }
+                    }
+
+                    int shooterIndex = ObjectManager.Rand.Next(bottomRow.Count);
+                    bottomRow[shooterIndex].Shoot();
+                }
+
+                Alarms["shoot"].Restart(ObjectManager.Rand.Next(ShootTimeBottom, ShootTimeTop));
+                #endregion
             }
         }
         public override void Update()
         {
-            #region Shoot
-            if (!IsEmpty() && ObjectManager.Rand.NextDouble() < ShootChance)
-            {
-                //Get all the bottom invaders of all the columns
-                List<BaseInvader> bottomRow = new List<BaseInvader>();
-                
-                for (int i = 0; i < columns; i++) //for each column
-                {
-                    for (int j = rows - 1; j >= 0; j--) //go from the bottom up, the first invader you find is the bottom one
-                    {
-                        if (Invaders[j, i] != null)
-                        {
-                            bottomRow.Add(Invaders[j, i]);
-                            break;
-                        }
-                    }
-                }
-
-                int shooterIndex = ObjectManager.Rand.Next(bottomRow.Count);
-                bottomRow[shooterIndex].Shoot();
-            }
-            #endregion
-
             #region Remove destroyed invaders
 
             for (int i = 0; i < rows; i++)
