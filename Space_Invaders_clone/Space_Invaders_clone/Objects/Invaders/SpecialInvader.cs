@@ -25,15 +25,15 @@ namespace Space_Invaders_clone
         {
         }
 
-        const int Speed = 2;
-        const int Points = 1000;
+        private const int _speed = 2;
+        private const int _points = 1000;
 
         public static SoundEffect ExplodeSound;
-        public static Vector2 PositionToCreate = new Vector2(0, 50);
+        private static Vector2 _positionToCreate = new Vector2(0, 50); //Used in the "make it" method
 
         public override void Update()
         {
-            StepAngle(Directions.Right, Speed);
+            StepAngle(Directions.Right, _speed);
         }
         public override void OutsideOfWindow()
         {
@@ -48,14 +48,14 @@ namespace Space_Invaders_clone
                     DestroyObject(this);
 
                     ExplodeSound.Play(0.5f, 0.2f, 0.0f);
-                    SpaceInvaders.RefScore.AddPoints(Points);
+                    SpaceInvaders.RefScore.AddPoints(_points);
                 }
             }
         }
 
-        public static void MakeIt()
+        public static void MakeIt() //Makes a new special invader at the fixed position
         {
-            ObjectManager.Create(typeof(SpecialInvader), PositionToCreate);
-        }
+            ObjectManager.Create(typeof(SpecialInvader), _positionToCreate);
+        } 
     }
 }

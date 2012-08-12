@@ -25,8 +25,8 @@ namespace Space_Invaders_clone
         {
         }
 
-        public int SpawnTimeTop = 60 * 20;
-        public int SpawnTimeBottom = 60 * 15;
+        private int _spawnTimeTop = 60 * 20;
+        private int _spawnTimeBottom = 60 * 15;
 
         public override void Create(GameObject createdObject)
         {
@@ -34,7 +34,7 @@ namespace Space_Invaders_clone
             {
                 Visable = false;
                 Solid = false;
-                Alarms.Add("spawn", new Alarm(ObjectManager.Rand.Next(SpawnTimeBottom, SpawnTimeTop)));
+                Alarms.Add("spawn", new Alarm(ObjectManager.Rand.Next(_spawnTimeBottom, _spawnTimeTop)));
             }
         }
 
@@ -43,7 +43,7 @@ namespace Space_Invaders_clone
             if (name == "spawn")
             {
                 SpecialInvader.MakeIt();
-                Alarms["spawn"].Restart(ObjectManager.Rand.Next(SpawnTimeBottom, SpawnTimeTop));
+                Alarms["spawn"].Restart(ObjectManager.Rand.Next(_spawnTimeBottom, _spawnTimeTop));
             }
         }
     }

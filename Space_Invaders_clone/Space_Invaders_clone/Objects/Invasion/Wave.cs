@@ -14,7 +14,7 @@ using Sandi_s_Way;
 
 namespace Space_Invaders_clone
 {
-    enum DirectionMoving
+    public enum DirectionMoving
     {
         Left,
         Right
@@ -31,60 +31,64 @@ namespace Space_Invaders_clone
         {
         }
 
-        public BaseInvader[,] Invaders = new BaseInvader[5, 9];
-        public Vector2 Positon;
-        public int MoveTime = 50;
-        public int ShootTimeTop = 60 * 3;
-        public int ShootTimeBottom = 60;
-        private float spacing = 15.0f; //The space between the rows
+        private BaseInvader[,] _invaders = new BaseInvader[5, 9]; //Holds references to invaders stored in Objectanager.Objects
+        private Vector2 _positon; //A reference to sprite position
+        
+        private int _moveTime = 50; //How long it takes for the wave to move
+        private int _shootTimeTop = 60 * 3; //Max amount of time it will take the wave to shoot
+        private int _shootTimeBottom = 60; //Min amount of time it will take the wave to shoot
+
+        private float _spacing = 15.0f; //The space between the rows
+        private int _rows;
+        private int _columns;
+
         private DirectionMoving direction = DirectionMoving.Right;
-        private int rows;
-        private int columns;
-        private int moveSoundCounter = 4; //this is used so i can play the move sound with a descending pitch
 
-        private int InvaderWidth;
-        private int InvaderHeight;
+        private int _moveSoundCounter = 4; //this is used so i can play the move sound with a descending pitch
 
-        public void FillInvaders()  
+        private int _invaderWidth;
+        private int _invaderHeight;
+
+        public void FillInvaders()
         {
-            float yPosition = Positon.Y;
-            int row = columns; //Gets the number of invaders in a row
+            float yPosition = _positon.Y;
+            int row = _columns; //Gets the number of invaders in a row
 
             //Fill the invaders:
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < _rows; i++)
             {
                 for (int j = 0; j < row; j++)
                 {
                     if (i == 0)
                     {
-                        Invaders[i, j] = (BaseInvader)CreateAndReturnObject
-                        (typeof(InvaderType1), new Vector2(InvaderWidth * j + Positon.X + 10 * j, yPosition));
+                        _invaders[i, j] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType1), new Vector2(_invaderWidth * j + _positon.X + 10 * j, yPosition));
                     }
                     else if (i == 1 | i == 2)
                     {
-                        Invaders[i, j] = (BaseInvader)CreateAndReturnObject
-                        (typeof(InvaderType2), new Vector2(InvaderWidth * j + Positon.X + 10 * j, yPosition));
+                        _invaders[i, j] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType2), new Vector2(_invaderWidth * j + _positon.X + 10 * j, yPosition));
                     }
                     else if (i == 3 | i == 4)
                     {
-                        Invaders[i, j] = (BaseInvader)CreateAndReturnObject
-                        (typeof(InvaderType3), new Vector2(InvaderWidth * j + Positon.X + 10 * j, yPosition));
+                        _invaders[i, j] = (BaseInvader)CreateAndReturnObject
+                        (typeof(InvaderType3), new Vector2(_invaderWidth * j + _positon.X + 10 * j, yPosition));
                     }
                 }
 
-                yPosition += InvaderHeight + spacing;
+                yPosition += _invaderHeight + _spacing;
             }
         }
         public void LevelUp() //Makes the wawe faster and deadlier
         {
-            ShootTimeTop -= (int)(ShootTimeTop * 0.1); //Decrease by 10%
-            ShootTimeBottom -= (int)(ShootTimeBottom * 0.1); //Decrease by 10%
-            MoveTime -= (int)(MoveTime * 0.1); //Decrease by 10%
+            _shootTimeTop -= (int)(_shootTimeTop * 0.1); //Decrease by 10%
+            _shootTimeBottom -= (int)(_shootTimeBottom * 0.1); //Decrease by 10%
+            _moveTime -= (int)(_moveTime * 0.1); //Decrease by 10%
         }
         public bool IsEmpty()
         {
             bool isEmpty = true;
-            foreach (var invader in Invaders)
+            foreach (var invader in _invaders)
             {
                 if (invader != null)
                 {
@@ -95,7 +99,7 @@ namespace Space_Invaders_clone
             }
 
             return isEmpty;
-        }
+        } //Returns true if all invaders are destroyed
         public Rectangle GetInvadersRectangle()
         {
             int furthestLeft = 0;
@@ -104,13 +108,13 @@ namespace Space_Invaders_clone
             int furthestDown = 0;
 
             #region Find furthest left
-            for (int i = 0; i < columns; i++)
+            for (int i = 0; i < _columns; i++)
             {
-                for (int j = 0; j < rows; j++)
+                for (int j = 0; j < _rows; j++)
                 {
-                    if (Invaders[j, i] != null)
+                    if (_invaders[j, i] != null)
                     {
-                        furthestLeft = Invaders[j, i].Sprite.GetRectangle().Left;
+                        furthestLeft = _invaders[j, i].Sprite.GetRectangle().Left;
 
                         goto endSearchLeft; //im only using goto to break out of two loops. im sorry.
                     }
@@ -120,13 +124,13 @@ namespace Space_Invaders_clone
             #endregion
 
             #region Find furthest right
-            for (int i = columns - 1; i >= 0; i--)
+            for (int i = _columns - 1; i >= 0; i--)
             {
-                for (int j = 0; j < rows; j++)
+                for (int j = 0; j < _rows; j++)
                 {
-                    if (Invaders[j, i] != null)
+                    if (_invaders[j, i] != null)
                     {
-                        furthestRight = Invaders[j, i].Sprite.GetRectangle().Right;
+                        furthestRight = _invaders[j, i].Sprite.GetRectangle().Right;
 
                         goto endSearchRight; //im only using goto to break out of two loops. im sorry.
                     }
@@ -136,13 +140,13 @@ namespace Space_Invaders_clone
             #endregion
 
             #region Find furthest up
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < _rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < _columns; j++)
                 {
-                    if (Invaders[i, j] != null)
+                    if (_invaders[i, j] != null)
                     {
-                        furthestUp = Invaders[i, j].Sprite.GetRectangle().Top;
+                        furthestUp = _invaders[i, j].Sprite.GetRectangle().Top;
 
                         goto endSearchUp; //im only using goto to break out of two loops. im sorry.
                     }
@@ -152,13 +156,13 @@ namespace Space_Invaders_clone
             #endregion
 
             #region Find furthest down
-            for (int i = rows - 1; i >= 0; i--)
+            for (int i = _rows - 1; i >= 0; i--)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < _columns; j++)
                 {
-                    if (Invaders[i, j] != null)
+                    if (_invaders[i, j] != null)
                     {
-                        furthestDown = Invaders[i, j].Sprite.GetRectangle().Bottom;
+                        furthestDown = _invaders[i, j].Sprite.GetRectangle().Bottom;
 
                         goto endSearchDown; //im only using goto to break out of two loops. im sorry.
                     }
@@ -176,31 +180,31 @@ namespace Space_Invaders_clone
         private void PlayMoveSound()
         {
             //Update move sound counter:
-            if (moveSoundCounter > 0) moveSoundCounter--;
-            else moveSoundCounter = 3;
+            if (_moveSoundCounter > 0) _moveSoundCounter--;
+            else _moveSoundCounter = 3;
 
             //Play the sound acordingly:
-            BaseInvader.MoveSound.Play(1.0f, 0.1f * moveSoundCounter, 0.0f);
+            BaseInvader.MoveSound.Play(1.0f, 0.1f * _moveSoundCounter, 0.0f);
         }
 
         public override void Create(GameObject createdObject)
         {
             if (createdObject == this)
             {
-                Positon = Sprite.Position;
+                _positon = Sprite.Position;
                 
-                Alarms.Add("move", new Alarm(MoveTime));
-                Alarms.Add("shoot", new Alarm(ObjectManager.Rand.Next(ShootTimeBottom, ShootTimeTop)));
+                Alarms.Add("move", new Alarm(_moveTime));
+                Alarms.Add("shoot", new Alarm(ObjectManager.Rand.Next(_shootTimeBottom, _shootTimeTop)));
 
-                InvaderWidth = new InvaderType1().Sprite.GetRectangle().Width;
-                InvaderHeight = new InvaderType1().Sprite.GetRectangle().Height;
+                _invaderWidth = new InvaderType1().Sprite.GetRectangle().Width;
+                _invaderHeight = new InvaderType1().Sprite.GetRectangle().Height;
 
-                rows = Invaders.GetLength(0);
-                columns = Invaders.GetLength(1);
+                _rows = _invaders.GetLength(0);
+                _columns = _invaders.GetLength(1);
                 FillInvaders();
             }
         }
-        public override void Alarm(string name)
+        public override void Alarm(string name) //Moves and shoots
         {
             if (name == "move")
             {
@@ -215,70 +219,69 @@ namespace Space_Invaders_clone
                     if (invaders.Left - BaseInvader.HowMuchToMove >= screen.Left + BaseInvader.HowMuchToMove)
                     {
                         //If so, move:
-                        foreach (var invader in Invaders)
+                        foreach (var invader in _invaders)
                         {
-                            if (invader != null) invader.MoveLeft();
+                            if (invader != null) invader.Move(direction);
                         }
                         PlayMoveSound();
                     }
                     else
                     {
-                        foreach (var invader in Invaders)
+                        foreach (var invader in _invaders)
                         {
                             if (invader != null)  invader.MoveDown();
                         }
 
                         direction = DirectionMoving.Right;
                         PlayMoveSound();
-                        MoveTime -= (int)(MoveTime * 0.1); //Decrease time by 10%
+                        _moveTime -= (int)(_moveTime * 0.1); //Decrease time by 10%
                     }
                 }
-
                 else if (direction == DirectionMoving.Right)
                 {
                     //Check if you can move to left (if there is space):
                     if (invaders.Right + BaseInvader.HowMuchToMove <= screen.Right - BaseInvader.HowMuchToMove)
                     {
                         //If so, move:
-                        foreach (var invader in Invaders)
+                        foreach (var invader in _invaders)
                         {
-                            if (invader != null) invader.MoveRight();
+                            if (invader != null) invader.Move(direction); 
                         }
 
                         PlayMoveSound();
                     }
                     else
                     {
-                        foreach (var invader in Invaders)
+                        foreach (var invader in _invaders)
                         {
                             if (invader != null) invader.MoveDown();
                         }
 
                         direction = DirectionMoving.Left;
                         PlayMoveSound();
-                        MoveTime -= (int)(MoveTime * 0.1); //Decrease time by 10%
+                        _moveTime -= (int)(_moveTime * 0.1); //Decrease time by 10%
                     }
                 }
-                #endregion
 
-                Alarms["move"].Restart(MoveTime);
+                Alarms["move"].Restart(_moveTime);
+                #endregion
             }
             
             if (name == "shoot")
             {
-                #region shoot
+                #region Shoot
                 if (!IsEmpty())
                 {
                     //Get all the bottom invaders of all the columns
                     List<BaseInvader> bottomRow = new List<BaseInvader>();
 
-                    for (int i = 0; i < columns; i++) //for each column
+                    for (int i = 0; i < _columns; i++) //for each column
                     {
-                        for (int j = rows - 1; j >= 0; j--) //go from the bottom up, the first invader you find is the bottom one
+                        for (int j = _rows - 1; j >= 0; j--) //go from the bottom up, the first invader you find is the bottom one
                         {
-                            if (Invaders[j, i] != null)
+                            if (_invaders[j, i] != null)
                             {
-                                bottomRow.Add(Invaders[j, i]);
+                                bottomRow.Add(_invaders[j, i]);
                                 break;
                             }
                         }
@@ -288,23 +291,23 @@ namespace Space_Invaders_clone
                     bottomRow[shooterIndex].Shoot();
                 }
 
-                Alarms["shoot"].Restart(ObjectManager.Rand.Next(ShootTimeBottom, ShootTimeTop));
+                Alarms["shoot"].Restart(ObjectManager.Rand.Next(_shootTimeBottom, _shootTimeTop));
                 #endregion
             }
         }
-        public override void Update()
+        public override void Update() //Remove usless bullets
         {
             #region Remove destroyed invaders
 
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < _rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < _columns; j++)
                 {
-                    if (Invaders[i, j] != null)
+                    if (_invaders[i, j] != null)
                     {
-                        if (Invaders[i, j].IsDestroyed())
+                        if (_invaders[i, j].IsDestroyed())
                         {
-                            Invaders[i, j] = null;
+                            _invaders[i, j] = null;
                         }
                     }
                 }
@@ -312,32 +315,15 @@ namespace Space_Invaders_clone
 
             #endregion
         }
-        public override void Destroy(GameObject destroyedObject)
+        public override void Destroy(GameObject destroyedObject) //Destroy all invaders when destroyed
         {
             if (destroyedObject == this)
             {
-                foreach (var invader in Invaders)
+                foreach (var invader in _invaders)
                 {
                     DestroyObject(invader);
                 }
             }
         }
-
-        //Test:
-        public override void KeyPressed(List<Keys> keys)
-        {
-            if (keys.Contains(Keys.B))
-            {
-                LevelUp();
-            }
-        }
-        //public override void Draw()
-        //{
-        //    Rectangle rectangle = GetInvadersRectangle();
-
-        //    Texture2D RectangleTexture = TextureContainer.ColoredRectangle(Color.PeachPuff, rectangle.Width, rectangle.Height);
-
-        //    GameInfo.RefSpriteBatch.Draw(RectangleTexture, rectangle, Color.White);
-        //} //for debugging
     }
 }

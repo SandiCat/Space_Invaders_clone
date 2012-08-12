@@ -14,6 +14,8 @@ using Sandi_s_Way;
 
 namespace Space_Invaders_clone
 {
+    //This object spawns a wave, and when its destroyed it makes a new one, and so on.
+    //It also makes them gradually harder and it checks for game over
     public class Invasion : GameObject
     {
         public Invasion()
@@ -26,48 +28,46 @@ namespace Space_Invaders_clone
         }
 
 
-        public Wave Current;
-        public Vector2 MainPosition; //Where waves start
-        int waveCounter = 1;
-        public static int GameOverLine = 370;
+        private Wave _current; //The wave that currently on the screen
+        private Vector2 _mainPosition; //Where waves start
+        private int _waveCounter = 1;
+        private int _gameOverLine = 370; //The x position that the bottom of the wave needs to pass to kill the player
 
         public override void Create(GameObject createdObject)
         {
             if (createdObject == this)
             {
-                MainPosition = Sprite.Position;
-                Current = (Wave)CreateAndReturnObject(typeof(Wave), MainPosition);
+                _mainPosition = Sprite.Position;
+                _current = (Wave)CreateAndReturnObject(typeof(Wave), _mainPosition);
             }
         }
         public override void Update()
         {
             //Check if the wave is destroyed:
-            if (Current.IsEmpty())
+            if (_current.IsEmpty())
             {
                 //Spawn new wave
-                DestroyObject(Current);
-                Current = (Wave)CreateAndReturnObject(typeof(Wave), MainPosition);
+                DestroyObject(_current);
+                _current = (Wave)CreateAndReturnObject(typeof(Wave), _mainPosition);
 
                 //Reset barrier blocks
-                foreach (var obj in ObjectManager.Objects)
+                foreach (var obj in ObjectManager.Objects.Where(obj => obj.GetType() == typeof(Block))) //Destroy old ones
                 {
-                    if (obj.GetType() == typeof(Block))
-                    {
-                        DestroyObject(obj);
-                    }
+                    DestroyObject(obj);
                 }
                 BlockMaker.MakeANewSetOfBlocks();
 
                 //Level up the invasion
-                for (int i = 0; i < waveCounter; i++)
+                for (int i = 0; i < _waveCounter; i++)
                 {
-                    Current.LevelUp();
+                    _current.LevelUp();
                 }
             }
 
             //Check for a game over:
-            if (Current.GetInvadersRectangle().Bottom >= GameOverLine)
+            if (_current.GetInvadersRectangle().Bottom >= _gameOverLine)
             {
+                //If game is indeed over than destroy everything and make a game over sign at the middle of the screen
                 ObjectManager.Clear();
                 int screenWidth = SpaceInvaders.Device.Viewport.Width;
                 int screenHeight = SpaceInvaders.Device.Viewport.Height;

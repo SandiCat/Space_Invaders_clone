@@ -118,7 +118,6 @@
     <Compile Include="Objects\Invasion\Invasion.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Invaders\BaseInvader.cs" />
-    <Compile Include="Objects\Bullets\BaseBullet.cs" />
     <Compile Include="Objects\Bullets\PlayerBullet.cs" />
     <Compile Include="Objects\Bullets\EnemyBullet.cs" />
     <Compile Include="Objects\Invaders\InvaderType3.cs" />

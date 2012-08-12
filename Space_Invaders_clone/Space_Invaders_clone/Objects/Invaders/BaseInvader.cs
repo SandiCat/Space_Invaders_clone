@@ -21,7 +21,7 @@ namespace Space_Invaders_clone
         public static int HowMuchDown = 30;
         public static int BulletSpeed = 3;
 
-        public static int Points = 100; //Points for killing
+        private int _points = 100; //Points for killing
 
         public static SoundEffect ShootSound;
         public static SoundEffect MoveSound;
@@ -36,13 +36,10 @@ namespace Space_Invaders_clone
         {
         }
 
-        public void MoveLeft()
+        public void Move(DirectionMoving direction)
         {
-            StepAngle(Directions.Left, HowMuchToMove);
-        }
-        public void MoveRight()
-        {
-            StepAngle(Directions.Right, HowMuchToMove);
+            if (direction == DirectionMoving.Left) StepAngle(Directions.Left, HowMuchToMove);
+            else if (direction == DirectionMoving.Right) StepAngle(Directions.Right, HowMuchToMove);
         }
         public void MoveDown()
         {
@@ -71,7 +68,7 @@ namespace Space_Invaders_clone
             if (destroyedObject == this)
             {
                 ExplodeSound.Play(0.5f, 0.2f, 0.0f);
-                SpaceInvaders.RefScore.AddPoints(Points);
+                SpaceInvaders.RefScore.AddPoints(_points);
             }
         }
     }

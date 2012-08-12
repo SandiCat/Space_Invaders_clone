@@ -112,15 +112,19 @@ namespace Space_Invaders_clone
         protected override void Update(GameTime gameTime)
         {
             ObjectManager.UpdateAll();
+            Console.Update();
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+
             spriteBatch.Begin();
             ObjectManager.DrawAll();
+            Console.WriteConsole();
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }

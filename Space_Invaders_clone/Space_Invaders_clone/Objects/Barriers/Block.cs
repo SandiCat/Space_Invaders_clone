@@ -25,7 +25,7 @@ namespace Space_Invaders_clone
         {
         }
 
-        int hitPoints = 3;
+        private int _hitPoints = 3;
 
         public override void Collision(List<GameObject> collisions)
         {
@@ -33,14 +33,14 @@ namespace Space_Invaders_clone
             {
                 if (obj.GetType() == typeof(PlayerBullet) | obj.GetType() == typeof(EnemyBullet))
                 {
-                    hitPoints--;
+                    _hitPoints--;
                     DestroyObject(obj);
                 }
             }
         }
         public override void Update()
         {
-            if (hitPoints == 0) DestroyObject(this);
+            if (_hitPoints == 0) DestroyObject(this);
         }
     }
 }

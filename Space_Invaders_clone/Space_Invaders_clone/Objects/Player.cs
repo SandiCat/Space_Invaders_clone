@@ -37,12 +37,14 @@ namespace Space_Invaders_clone
                     Solid = false;
 
                     int blockSide = new Block().Sprite.Image.Height; //Since a block is square shaped it dosen't matter wich side you take
+                    
+                    //Make a thin sprite as tall as an barrier. It is positioned where barriers are. 
                     Sprite = new Sprite(TextureContainer.ColoredRectangle(Color.White, 3, 
                         blockSide * 3), new Vector2(SpaceInvaders.Device.Viewport.Width / 2, BlockMaker.Position.Y));
                         //Creates it where the player shoots bullets
                 }
             }
-            public override void Update()
+            public override void Update() //Follow the player
             {
                 Sprite.Position.X = Player.Sprite.Position.X + 25; //If the size of the player or the bullet are ever changed, this would need tweaking
                 Sprite.Position.Y= BlockMaker.Position.Y;
@@ -71,14 +73,15 @@ namespace Space_Invaders_clone
         {
         }
 
-        int speed = 5;
-        int bulletSpeed = 10;
-        bool canShoot = true;
-        int canShootTime = 40;
-        int shortCanShootTime = 10; //for when player is under blocks
+        private int _speed = 5;
+        private int _bulletSpeed = 10;
+        private bool _canShoot = true;
+        private int _canShootTime = 40;
+        private int _shortCanShootTime = 10; //for when player is under blocks
 
         public static SoundEffect ShootSound;
-        CheckObject checker;
+        
+        private CheckObject _checker;
 
         public override void Create(GameObject createdObject)
         {
@@ -86,30 +89,30 @@ namespace Space_Invaders_clone
             {
                 Alarms.Add("reset canShoot", new Alarm());
                 
-                checker = (CheckObject)CreateAndReturnObject(typeof(CheckObject), new Vector2(0, 0));
-                checker.Player = this;
+                _checker = (CheckObject)CreateAndReturnObject(typeof(CheckObject), new Vector2(0, 0));
+                _checker.Player = this;
             }
         }
-        public override void KeyDown(List<Keys> keys)
+        public override void KeyDown(List<Keys> keys) //Move around
         {
             if (keys.Contains(Keys.Left))
             {
-                StepAngle(Directions.Left, speed);
+                StepAngle(Directions.Left, _speed);
             }
 
             if (keys.Contains(Keys.Right))
             {
-                StepAngle(Directions.Right, speed);
+                StepAngle(Directions.Right, _speed);
             }
 
-            if (keys.Contains(Keys.Space) && canShoot)
+            if (keys.Contains(Keys.Space) && _canShoot)
             {
                 Vector2 abovePlayer = Sprite.Position + new Vector2(53f / 2f - 2.5f, 0);
-                CreateMovingObject(typeof(PlayerBullet), abovePlayer, Directions.Up, bulletSpeed);
+                CreateMovingObject(typeof(PlayerBullet), abovePlayer, Directions.Up, _bulletSpeed);
 
-                canShoot = false;
-                if (!checker.IsCollidingWithBlocks()) Alarms["reset canShoot"].Restart(canShootTime);
-                else Alarms["reset canShoot"].Restart(shortCanShootTime);
+                _canShoot = false;
+                if (!_checker.IsCollidingWithBlocks()) Alarms["reset canShoot"].Restart(_canShootTime);
+                else Alarms["reset canShoot"].Restart(_shortCanShootTime);
 
                 ShootSound.Play();
             }
@@ -118,14 +121,14 @@ namespace Space_Invaders_clone
             Rectangle screen = new Rectangle(0, 0, SpaceInvaders.Device.Viewport.Width, SpaceInvaders.Device.Viewport.Height);
             Sprite.Position.X = MathHelper.Clamp(Sprite.Position.X, screen.Left, screen.Right - Sprite.Image.Width);
         }
-        public override void Alarm(string name)
+        public override void Alarm(string name) //Resets "canShoot"
         {
             if (name == "reset canShoot")
             {
-                canShoot = true;
+                _canShoot = true;
             }
         }
-        public override void Collision(List<GameObject> collisions)
+        public override void Collision (List<GameObject> collisions) //Dies from bullets
         {
             foreach (var obj in collisions)
             {

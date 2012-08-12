@@ -25,10 +25,10 @@ namespace Space_Invaders_clone
         {
         }
 
-        Texture2D greenPellet;
-        Texture2D redPellet;
-        const int beginingHitPoints = 10;
-        public int HitPoints = beginingHitPoints;
+        private Texture2D _greenPellet;
+        private Texture2D _redPellet;
+        private const int _beginingHitPoints = 10;
+        public int HitPoints = _beginingHitPoints;
         public static SoundEffect PlayerHit;
 
         public void TakeDamage(int howMuch)
@@ -43,8 +43,8 @@ namespace Space_Invaders_clone
         {
             if (createdObject == this)
             {
-                greenPellet = TextureContainer.ColoredRectangle(Color.Green, 10, 18);
-                redPellet = TextureContainer.ColoredRectangle(Color.Red, 10, 18);
+                _greenPellet = TextureContainer.ColoredRectangle(Color.Green, 10, 18);
+                _redPellet = TextureContainer.ColoredRectangle(Color.Red, 10, 18);
             }
         }
         public override void Draw()
@@ -52,12 +52,12 @@ namespace Space_Invaders_clone
             float x = Sprite.Position.X;
             float y = Sprite.Position.Y;
 
-            for (int i = 0; i <= beginingHitPoints; i++)
+            for (int i = 0; i <= _beginingHitPoints; i++)
             {
                 if (i <= HitPoints)
-                    GameInfo.RefSpriteBatch.Draw(greenPellet, new Vector2(x, y), Color.White);
+                    GameInfo.RefSpriteBatch.Draw(_greenPellet, new Vector2(x, y), Color.White);
                 else
-                    GameInfo.RefSpriteBatch.Draw(redPellet, new Vector2(x, y), Color.White);
+                    GameInfo.RefSpriteBatch.Draw(_redPellet, new Vector2(x, y), Color.White);
 
                 x += 10;
             }
