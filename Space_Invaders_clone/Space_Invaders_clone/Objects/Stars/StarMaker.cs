@@ -42,7 +42,7 @@ namespace Space_Invaders_clone
                 double scaled = (sample * range) + _bottomSize;
                 float size = (float)scaled;
 
-                ObjectManager.CreateAndReturn(typeof(Star), position).Sprite.Scale = size;
+                ObjectManager.InstantCreateAndReturn(typeof(Star), position).Sprite.Scale = size;
 
                 //ObjectManager.Create(typeof(Star), position);
             }
