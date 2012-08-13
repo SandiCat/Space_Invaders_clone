@@ -83,6 +83,7 @@ namespace Space_Invaders_clone
             TextureContainer.DefaultTextures[typeof(PlayerBullet)] = TextureContainer.ColoredRectangle(Color.Green, 5, 13);
             TextureContainer.DefaultTextures[typeof(GameOverSign)] = TextureContainer.AddTextureAndReturn("Game over");
             TextureContainer.DefaultTextures[typeof(Block)] = TextureContainer.ColoredRectangle(Color.LightGreen, 20, 20);
+            TextureContainer.DefaultTextures[typeof(Star)] = TextureContainer.ColoredRectangle(Color.White, 10, 10);
 
             //Load sounds:
             Player.ShootSound = Content.Load<SoundEffect>("Laser");
@@ -93,6 +94,7 @@ namespace Space_Invaders_clone
             LifeBar.PlayerHit = Content.Load<SoundEffect>("PlayerHit");
 
             //Create game objects:
+            StarMaker.MakeSomeStars();
             ObjectManager.InstantCreate(typeof(Invasion), new Vector2(90, 85));
             ObjectManager.InstantCreate(typeof(Player), new Vector2(Device.Viewport.Width / 2 - 25, 460));
             BlockMaker.MakeANewSetOfBlocks();

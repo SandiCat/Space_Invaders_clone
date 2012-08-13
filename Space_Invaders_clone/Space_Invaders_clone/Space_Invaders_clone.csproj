@@ -111,6 +111,8 @@
     <Compile Include="Objects\Barriers\Block.cs" />
     <Compile Include="Objects\Invaders\SpecialInvader.cs" />
     <Compile Include="Objects\Invasion\SpecialInvaderSpawner.cs" />
+    <Compile Include="Objects\Stars\StarMaker.cs" />
+    <Compile Include="Objects\Stars\Star.cs" />
     <Compile Include="Objects\UI\LifeBar.cs" />
     <Compile Include="Objects\UI\ScorePopUp.cs" />
     <Compile Include="Objects\UI\Score.cs" />
